@@ -1,0 +1,14 @@
+[
+	{
+		"test": "3 4\n..a.\n####\nba#b\n"
+	},
+	{
+		"test": "3 4\n..a.\n####\nb.#b\n"
+	},
+	{
+		"test": "4 4\nxxxx\nxxxx\nxxxx\nxxxx\n"
+	},
+	{
+		"test": "7 11\nu..#y..#...\nk..#.z.#.k.\niju#...#x..\n###########\n..x#.t.#..n\nabc#y..#...\n..z#..t#.y.\n"
+	}
+]

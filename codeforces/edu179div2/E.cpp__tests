@@ -1,0 +1,11 @@
+[
+	{
+		"test": "3\n2 2\ncb\nc b\nb a\n10 10\nbbbbbbbbbb\nb a\nb c\nc b\nb a\nc a\nb c\nb c\nb a\na b\nc a\n30 20\nabcaababcbbcabcbbcabcbabbbbabc\nb c\nb c\nc a\nb c\nb c\nb a\nb c\nb c\nb a\nb a\nb a\nb a\nc a\nb c\nc a\nb c\nc a\nc a\nb c\nc b\n"
+	},
+	{
+		"test": "1\n3\n3\ncbc\nc b\nb a\nc a\n"
+	},
+	{
+		"test": "1 3 3\naaaab\nb c\nb c\na c\n"
+	}
+]

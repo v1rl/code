@@ -1,0 +1,5 @@
+[
+	{
+		"test": "2\n5\nteamA B accepted\nteamB B rejected\nteamC A accepted\nteamB B accepted\nteamD C accepted\n4\nteamA A rejected\nteamB A accepted \nteamC B accepted\nteamC B accepted\n"
+	}
+]

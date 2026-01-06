@@ -1,0 +1,8 @@
+[
+	{
+		"test": "ABABABC\nABA\n"
+	},
+	{
+		"test": "aaa\naa\n"
+	}
+]

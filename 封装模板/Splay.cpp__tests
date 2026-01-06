@@ -1,0 +1,5 @@
+[
+	{
+		"test": "9 8 \n2 -6 3 5 1 -5 -3 6 3 \nGET-SUM 5 4\nMAX-SUM\nINSERT 8 3 -5 7 2\nDELETE 12 1\nMAKE-SAME 3 3 2\nREVERSE 3 6\nGET-SUM 5 4\nMAX-SUM\n"
+	}
+]

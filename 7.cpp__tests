@@ -1,0 +1,14 @@
+[
+	{
+		"test": "5 3\nABCAB\n"
+	},
+	{
+		"test": "20 10\nABCABCABCABCABCABCAA\n"
+	},
+	{
+		"test": "5 1\nAABBC\n"
+	},
+	{
+		"test": "5 1\nCCCAB\n"
+	}
+]

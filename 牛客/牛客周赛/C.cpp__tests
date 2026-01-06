@@ -1,0 +1,8 @@
+[
+	{
+		"test": "3\n4 2 2\nLRDU\n4 0 0\nLRDU\n6 2 -3\nLLULLU\n"
+	},
+	{
+		"test": "1\n6 0 1\nRUDUDR\n"
+	}
+]

@@ -1,0 +1,11 @@
+[
+	{
+		"test": "4 2 3\nYBB Nana7mi\nArihara Nanami\nArihara Nanami\nNanami Nanami\nArihara Nanami\nArihara Nanami\nArihara\nNanami\nTomotake\n"
+	},
+	{
+		"test": "2 2 2\nShrayuki Noa\nShrayuki Noa\nShrayuki Noa\nShrayuki Noa\nShrayuki\nShrayuki\n"
+	},
+	{
+		"test": "2 2 2\nYoshino Tomotake\nMurasame Tomotake\nYoshino Tomotake\nMurasame Tomotake\nMurasame\nMurasame\n"
+	}
+]

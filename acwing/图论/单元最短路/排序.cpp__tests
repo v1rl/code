@@ -1,0 +1,5 @@
+[
+	{
+		"test": "4 6\nA<B\nA<C\nB<C\nC<D\nB<D\nA<B\n3 2\nA<B\nB<A\n26 1\nA<Z\n0 0\n"
+	}
+]

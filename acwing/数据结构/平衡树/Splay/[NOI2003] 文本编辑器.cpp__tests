@@ -1,0 +1,5 @@
+[
+	{
+		"test": "15\nInsert 26\nabcdefghijklmnop\nqrstuv wxy\nMove 15\nDelete 11\nMove 5\nInsert 1\n^\nNext\nInsert 1\n_\nNext\nNext\nInsert 4\n.\\/.\nGet 4\nPrev\nInsert 1\n^\nMove 0\nGet 22\n\n"
+	}
+]

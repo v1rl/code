@@ -1,0 +1,21 @@
+[
+	{
+		"test": "4\nwhat can i say\nman\nhajimi\nmao\nkawaii\nke ai\ncan can need\nkan kan ni de\nwhat can i say!hajimi kawaii~can can need hajimi!\n",
+		"uncorrect_answers":
+		[
+			"ke"
+		]
+	},
+	{
+		"test": "3\nman\nwhatcanisay\nhajimi\nmao\nkawaii\nkeai\nman!hajimi,hajimi,hajimi!kawaii~\n"
+	},
+	{
+		"test": "5\nMaoNiang\n<censored>\nSeQing\n<censored>\nBaoLi\n<censored>\nWeiGui\n<censored>\nBuHeShi\n<censored>\nBianCheng MaoNiang ba! WeiGui De Hua Ye Keyi Shuo! BuYao BaoLi NeiRong.\n"
+	},
+	{
+		"test": "1\nasdf\nsdgdsfhdfjdf\n1454131646\n"
+	},
+	{
+		"test": "1\nwow\nw\nwowowowowowow\n\n"
+	}
+]

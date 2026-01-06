@@ -1,0 +1,23 @@
+[
+	{
+		"correct_answers":
+		[
+			"921512"
+		],
+		"test": "2\n912 215\n"
+	},
+	{
+		"correct_answers":
+		[
+			"9862"
+		],
+		"test": "2\n92 86\n"
+	},
+	{
+		"correct_answers":
+		[
+			"999777"
+		],
+		"test": "3\n97\n97\n97\n"
+	}
+]

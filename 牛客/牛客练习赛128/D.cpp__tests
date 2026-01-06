@@ -1,0 +1,23 @@
+[
+	{
+		"correct_answers":
+		[
+			"2"
+		],
+		"test": "3\n3 ababc ccaab ccbab\n4 ababa ccbab abcab dbacd\n3 aabbcd abcad ddacb\n"
+	},
+	{
+		"correct_answers":
+		[
+			"9"
+		],
+		"test": "10\n10 yanafrrtqd kvupeclkau ccmilushkl jprneeifaa mfvxrpkiku jelcmrfgcb ugcyggbtyc fcwcmovwab bbokcijkhr wbucibwpxs\n10 colojsdmfb kvifvnluiu ujgvrfjznt piupliwdum hxnaqlkmjn vyroklirhk ywvdvnhufy finvhstpax dpkuorlaro ynybgehzsl\n10 gatncocjvb bzxgwlhtgt wlxfcvnnmy ohxgxmfqaf enekeahjkc hibbabuqfv wsrgzsjvzf kdrpfxjvhm junrbhnjmd xnsjifazhm\n10 zwazrlklra mricnjqfcc ubphalodyh ywrgnltzbm ammknyfffh ncvqbwjiof dtenyzvhtr qtwjinnvdj gcmssbgmma oeqtyxhbon\n10 whvzszoekn rvxtxygeiw nxwofrsovq ghdeciwqou anlhigwubx eohknpcqrz rwaasmgqkn frkluphzhj xrllcuhwvv ipftevlujd\n10 omhaaflhah okkipqvdup hxnaqlkmjn fjpxhdzifv gxvbpbvbzx hghuizfjmk lwllhmyjdc hrwncsqbri qetxuqkjps gzfyrmwton\n10 eqwwhpuoaq lwaqpciksx gfipvjkbyh hotojhhzmy uqkhzkceud bqjamjebad ysijhzgtpk vwrcsppumx gyxspyvtdt ufoeprnvuj\n10 hxtvczmfng oymzqvbsak chzyqpbarb qveytprqwu ompsalmrwp bcwzqzaosi giputlgekx qcfvzdizyh tqywmcxivp ugzvukersa\n10 sdzxwnqiwc mhygxxiaxa vfykioxawf txodxyiplw tzmqjtjvlv atbonqcyrw stigqwzebp nskzejfryi qxbqejmoae lzldylftzk\n10 zvhwzrxeyy ksskesehze wadmkrvldb dofrbephlz scniotunqn povbjbexqz eqvisgsrnv wpmxclmuzd bgafvpzwmx aahqfcogkc\n"
+	},
+	{
+		"correct_answers":
+		[
+			"1"
+		],
+		"test": "10\n3 j e j\n3 n h d\n3 o p n\n3 b n w\n3 s a q\n3 m t x\n3 w u x\n3 z p m\n3 r t q\n3 f e u\n"
+	}
+]
