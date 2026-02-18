@@ -9,17 +9,13 @@ int main()
     int n;
     cin >> n;
     unordered_map<int, int> mp;
-    while(n --)
-    {
+    while(n --) {
         int x;
         cin >> x;
-        for(int i = 2; i <= x / i; i ++)
-        {
-            if(x % i == 0)
-            {
+        for(int i = 2; i <= x / i; i ++) {
+            if(x % i == 0) {
                 int res = 0;
-                while(x % i == 0)
-                {
+                while(x % i == 0) {
                     x /= i;
                     res ++;
                 }
@@ -30,8 +26,7 @@ int main()
     }
     
     i64 ans = 1;
-    for(auto [x, num] : mp)
-    {
+    for(auto [x, num] : mp) {
         ans = (ans * (num + 1)) % mod;
     }
     cout << ans << '\n';

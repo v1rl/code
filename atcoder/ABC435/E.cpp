@@ -3,8 +3,8 @@ using namespace std;
 using i64 = long long;
 
 /*
-离散化
-扫描线
+不断将区间纳入考虑，但纳入考虑的区间实际只会被计算一次
+这符合扫描线的应用场景，直接用扫描线模拟题意即可
 */
 
 template<class Info>
@@ -102,6 +102,7 @@ void solve() {
         int l, r;
         cin >> l >> r;
         kth.emplace_back(l);
+        // 需要注意，要对区间中点个数进行统计，我们应该按照左闭右开的逻辑存储需要离散化的点
         kth.emplace_back(r + 1);
         query[i] = {l, r + 1};
     }

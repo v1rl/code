@@ -3,20 +3,20 @@ using namespace std;
 using i64 = long long;
 
 /*
-只能选择左右一端执行跳越，随后另一端可以过滤掉
-通过这样的拆分递归完成操作
+题目条件限制下，从当前点向某个方向跳跃后，另一个方向的所有点便不再被考虑了
+另外，跳跃的最优落点总是目标方向上小于当前点的最大点
+暴力模拟这个跳跃过程即可，因为每次跳跃会舍去另一半，直觉上说应该不会超时
+只需要快速查找下标区间中某个数的前驱，用主席树处理即可
 */
 
 template<class Info>
-struct PresidentTree
-{
+struct PresidentTree {
     int n;
     int idx = 0;
     vector<Info> info;
     PresidentTree(int n_) : n(n_), info(n * (__lg(n) + 2) + 1) {};
     
-    void modify(int p, int &q, int l, int r, const int &v)
-    {
+    void modify(int p, int &q, int l, int r, const int &v) {
         q = ++ idx;
         info[q] = info[p];
         info[q].act ++;
@@ -26,13 +26,11 @@ struct PresidentTree
         else modify(info[p].r, info[q].r, mid + 1, r, v);
     }
 
-    void modify(int p, int &q, const int &v)
-    {
+    void modify(int p, int &q, const int &v) {
         modify(p, q, 1, n, v);
     }
 
-    int kth(int p, int q, int l, int r, int k)
-    {
+    int kth(int p, int q, int l, int r, int k) {
         if(l == r) return l;
         int mid = l + r >> 1;
         int sum = info[info[q].l].act - info[info[p].l].act;
@@ -40,27 +38,23 @@ struct PresidentTree
         else return kth(info[p].r, info[q].r, mid + 1, r, k - sum);
     }
 
-    int kth(int p, int q, int k)
-    {
+    int kth(int p, int q, int k) {
         return kth(p, q, 1, n, k);
     }
 
-    int query(int p, int q, int l, int r, int x, int y)
-    {
+    int query(int p, int q, int l, int r, int x, int y) {
         if(r < x || l > y) return 0;
         if(x <= l && y >= r) return info[q].act - info[p].act;
         int mid = l + r >> 1;
         return query(info[p].l, info[q].l, l, mid, x, y) + query(info[p].r, info[q].r, mid + 1, r, x, y);
     }
 
-    int query(int p, int q, int x, int y)
-    {
+    int query(int p, int q, int x, int y) {
         return query(p, q, 1, n, x, y);
     }
 };
 
-struct Info
-{
+struct Info {
     int l, r;
     int act = 0;
 };

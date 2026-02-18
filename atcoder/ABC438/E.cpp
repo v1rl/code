@@ -3,6 +3,9 @@ using namespace std;
 using i64 = long long;
 
 /*
+每个点都有且仅有一个固定的指向目标，计算目标也只是单纯每个点信息的累加
+这符合跳表的使用前提
+倍增维护落点和累计总和即可
 */
 
 void solve() {

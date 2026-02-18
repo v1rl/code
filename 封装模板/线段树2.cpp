@@ -12,7 +12,7 @@ struct LazySegmentTree {
         init(n_, v_);
     }
 
-    LazySegmentTree(vector<Info> a) {
+    LazySegmentTree(const vector<Info> &a) {
         init(a);
     }
 
@@ -20,7 +20,7 @@ struct LazySegmentTree {
         init(vector(n_ + 1, v_));
     }
 
-    void init(vector<Info> a) {
+    void init(const vector<Info> &a) {
         n = a.size() - 1;
         info.assign(4 << __lg(n), Info());
         tag.assign(4 << __lg(n), Tag());
@@ -81,6 +81,7 @@ struct LazySegmentTree {
         return query(1, 1, n, x, y);
     }
 };
+
 constexpr i64 inf = 1e18;
 
 struct Tag {
@@ -95,7 +96,7 @@ struct Info {
     i64 min = inf;
     i64 max = -inf;
     i64 sum = 0;
-    i64 act = 0;            //代替l、r来表示当前节点的长度
+    i64 act = 0;
 
     void apply(const Tag &t) {
         min += t.add;
@@ -104,7 +105,7 @@ struct Info {
     }
 };
 
-Info operator+(Info a, Info b) {
+Info operator+(const Info &a, const Info &b) {
     Info c;
     c.min = min(a.min, b.min);
     c.max = max(a.max, b.max);

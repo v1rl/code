@@ -16,18 +16,15 @@ struct Segmentree
 
 	Segmentree(int n_) : n(n_), info(4 * n + 1) {};
 
-	void pushup(int p)
-	{
+	void pushup(int p) {
 		info[p] = info[p << 1] + info[p << 1 | 1];
 	}
 
-	void modify(int p, int l, int r, int x, int y, const int v)
-	{
+	void modify(int p, int l, int r, int x, int y, const int v) {
 		if(v < info[p].val) return;
 		if(y < l || x > r) return;
-		if(x <= l && y >= r)
-		{
-			info[p].val = max(info[p].val, v);
+		if(x <= l && y >= r) {
+			info[p].val = v;
 			return;
 		}
 		int mid = l + r >> 1;
@@ -35,16 +32,13 @@ struct Segmentree
 		modify(p << 1 | 1, mid + 1, r, x, y, v);
 	}
 
-	void modify(int x, int y, const int &v)
-	{
+	void modify(int x, int y, const int &v) {
 		modify(1, 1, n, x, y, v);
 	}
 
-	void update(int p, int l, int r, int val)
-	{
+	void update(int p, int l, int r, int val) {
 		val = max(val, info[p].val);
-		if(l == r)
-		{
+		if(l == r) {
 			info[p].sum = 1ll * l * val;
 			return;
 		}
@@ -54,29 +48,25 @@ struct Segmentree
 		pushup(p);
 	}
 
-	i64 query()
-	{
+	i64 query() {
 		update(1, 1, n, 0);
 		return info[1].sum;
 	}
 };
 
-struct Info
-{
+struct Info {
 	i64 sum = 0;
 	int val = 0;
 };
 
-Info operator+(Info a, Info b)
-{
+Info operator+(Info a, Info b) {
 	Info c;
 	c.sum = a.sum ^ b.sum;
 	return c;
 };
 
 u32 x, y, z;
-u32 get()
-{
+u32 get() {
     x = x ^ (x << 11);x = x ^ (x >> 4);
     x = x ^ (x << 5);x = x ^ (x >> 14);
     u32 w = x ^ (y ^ z);
@@ -85,17 +75,16 @@ u32 get()
 }
 
 
-void solve()
-{
+void solve() {
 	u32 n, m;
 	cin >> n >> m >> x >> y >> z;
 	vector<u32> f(m * 3 + 1);
-	for(int i = 1; i <= m * 3; i ++)
+	for(int i = 1; i <= m * 3; i ++) {
 		f[i] = get();
+	}
 
 	Segmentree<Info> tr(n);
-	for(int i = 1; i <= m; i ++)
-	{
+	for(int i = 1; i <= m; i ++) {
 		int l = min(f[3 * i - 2] % n + 1, f[3 * i - 1] % n + 1);
 		int r = max(f[3 * i - 2] % n + 1, f[3 * i - 1] % n + 1);
 		int v = f[3 * i] % mod;
@@ -105,14 +94,12 @@ void solve()
 	cout << tr.query() << '\n';
 }
 
-int main()
-{
+int main() {
     ios::sync_with_stdio(false), cin.tie(0);
     int t;
     cin >> t;
     // t = 1;
-    while(t --)
-    {
+    while(t --) {
         solve();
     }
     return 0;

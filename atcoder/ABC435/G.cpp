@@ -3,118 +3,113 @@ using namespace std;
 using i64 = long long;
 
 /*
-只能选择左右一端执行跳越，随后另一端可以过滤掉
-通过这样的拆分递归完成操作
+约束条件：颜色有范围；格子i的前后格子中有且仅有一个与之同色
+注意到：相邻格子有且仅有一个同色，则颜色的排布形式必然为恰好两个连续格子同色
+不妨称两个连续格子为“骨牌”，任意颜色都只能以骨牌的形式出现，同色的骨牌不能连续出现
+这样的"不能连续出现"类型约束，不难联想到可以用dp处理
+我们设dp[i][c]表示只考虑前i个格子，以(i-1,i)颜色为c的骨牌结尾的合法方案数
+可以得到一个显然的转移方程：dp[i][c] = sum(dp[i - 2][!=c])
+设S[i]为只考虑前i个格子的所有合法情况数，我们可以通过维护S[i]优化对!=c的所有颜色的枚举，得到dp[i][c] = S[i - 2] - dp[i - 2][c]
+但此时仍然需要枚举区间支持的颜色集，于是我们思考是否存在直接维护颜色集总和(不包括无色)的做法
+维护集合过程中，需要在完成"对每一个元素执行raw=S-raw"，"添加元素"，"删除元素"的操作的情况下维护总和
+更本质地说，就是全体修改与查询和单点插入与查询
+注意到修改多而查询少的性质，不难联想到懒标记数据结构
+考虑到：维护懒标记的前提是标记必须要具有封闭性，即两个操作叠加后，仍然是同一种类型的操作
+注意到：每次修改都是raw=S-raw，这是一个k=-1，b=S的仿射变换，支持用懒标记维护
+这样，我们就通过维护懒标记数据结构优化了对颜色集的枚举
+因为每次dp转换的跨度为2，我们需要分奇偶维护这样的懒标记数据结构
+另外，因为不染色也是合法的可能，所以S的转移还要考虑不染色情况下继承S[i - 1]
+从而得到转移方程为：S[i] = S[i - 1] + dp[i][c]
 */
 
-template<class Info>
-struct PresidentTree
-{
-    int n;
-    int idx = 0;
-    vector<Info> info;
-    PresidentTree(int n_) : n(n_), info(n * (__lg(n) + 2) + 1) {};
-    
-    void modify(int p, int &q, int l, int r, const int &v)
-    {
-        q = ++ idx;
-        info[q] = info[p];
-        info[q].act ++;
-        if(l == r) return;
-        int mid = l + r >> 1;
-        if(v <= mid) modify(info[p].l, info[q].l, l, mid, v);
-        else modify(info[p].r, info[q].r, mid + 1, r, v);
+const int mod = 998244353;
+
+struct Info {
+    int sum = 0;
+    int add = 0;
+    int mul = 1;
+    int cnt = 0;
+    vector<int> raws;
+
+    Info(int n) {
+        raws.assign(n + 1, 0);
+    };
+
+    void apply(int s) {
+        sum = (1ll * s * cnt % mod - sum) % mod;
+        mul *= -1;
+        add = (s - add) % mod;
     }
 
-    void modify(int p, int &q, const int &v)
-    {
-        modify(p, q, 1, n, v);
+    // mul * raw + add = val
+    void addc(int id, int val) {
+        // 此处根据公式反推出raw
+        int raw = 1ll * (val - add) * mul % mod;
+        raws[id] = raw;
+        sum += val;
+        sum %= mod;
+        cnt ++;
     }
 
-    int kth(int p, int q, int l, int r, int k)
-    {
-        if(l == r) return l;
-        int mid = l + r >> 1;
-        int sum = info[info[q].l].act - info[info[p].l].act;
-        if(k <= sum) return kth(info[p].l, info[q].l, l, mid, k);
-        else return kth(info[p].r, info[q].r, mid + 1, r, k - sum);
+    void rem(int id) {
+        int val = (1ll * mul * raws[id] % mod + add) % mod;
+        sum -= val;
+        sum %= mod;
+        cnt --;
     }
-
-    int kth(int p, int q, int k)
-    {
-        return kth(p, q, 1, n, k);
-    }
-
-    int query(int p, int q, int l, int r, int x, int y)
-    {
-        if(r < x || l > y) return 0;
-        if(x <= l && y >= r) return info[q].act - info[p].act;
-        int mid = l + r >> 1;
-        return query(info[p].l, info[q].l, l, mid, x, y) + query(info[p].r, info[q].r, mid + 1, r, x, y);
-    }
-
-    int query(int p, int q, int x, int y)
-    {
-        return query(p, q, 1, n, x, y);
-    }
-};
-
-struct Info
-{
-    int l, r;
-    int act = 0;
 };
 
 void solve() {
-    int n;
-    cin >> n;
-    vector<int> a(n + 1);
-    vector<int> pos(n + 1);
-    for(int i = 1; i <= n; i ++) {
-        cin >> a[i];
-        pos[a[i]] = i;
+    int n, m;
+    cin >> n >> m;
+
+    vector<vector<int>> adds(n + 1), rems(n + 1);
+    for(int i = 1; i <= m; i ++) {
+        int l, r;
+        cin >> l >> r;
+        l ++;
+
+        if(l > r) {
+            continue;
+        }
+        // 用长度为2的循环将奇数和偶数的情况各自绑定在一起处理，避免出现错误信息
+        for(int k = 0; k < 2; k ++) {
+            int L = l, R = r;
+            if(L % 2 != k) {
+                L ++;
+            }
+            if(L > R) {
+                continue;
+            }
+            adds[L].emplace_back(i);
+
+            if(R % 2 != k) {
+                R --;
+            }
+            if(R + 2 <= n) {
+                rems[R + 2].emplace_back(i);
+            }
+        }
     }
 
-    PresidentTree<Info> tr(n);
-    vector<int> root(n + 1);
-    for(int i = 1; i <= n; i ++) {
-        tr.modify(root[i - 1], root[i], a[i]);
+
+    vector<int> sum(n + 1);
+    array<Info, 2> dp = {Info(m), Info(m)};
+    sum[0] = sum[1] = 1;
+    for(int i = 2; i <= n; i ++) {
+        int prev = sum[i - 2];
+        int cur = i % 2;
+        dp[cur].apply(prev);
+        for(auto id : adds[i]) {
+            dp[cur].addc(id, prev);
+        }
+        for(auto id : rems[i]) {
+            dp[cur].rem(id);
+        }
+        sum[i] = (sum[i - 1] + dp[cur].sum) % mod;
     }
 
-    auto prev = [&](int l, int r, int x) {
-        int cnt = tr.query(root[l - 1], root[r], 1, x - 1);
-        if(cnt == 0) {
-            return -1;
-        }
-        return tr.kth(root[l - 1], root[r], cnt);
-    };
-
-    i64 ans = 0;
-    i64 res = 0;
-    auto dfs = [&](auto &&self, int l, int r, int cur) -> void {
-        int mid = pos[cur];
-
-        int nc = prev(l, mid - 1, cur);
-        if(nc == -1) {
-            ans = max(ans, res);
-        } else {
-            res += mid - pos[nc];
-            self(self, l, mid - 1, nc);
-            res -= mid - pos[nc];            
-        }
-
-        nc = prev(mid + 1, r, cur);
-        if(nc == -1) {
-            ans = max(ans, res);
-        } else {
-            res += pos[nc] - mid;
-            self(self, mid + 1, r, nc);            
-            res -= pos[nc] - mid;            
-        }
-    };
-
-    dfs(dfs, 1, n, n);
-    cout << ans << '\n';
+    cout << (sum[n] + mod) % mod;
 }
 
 int main() {

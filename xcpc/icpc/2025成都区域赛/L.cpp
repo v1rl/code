@@ -3,9 +3,6 @@ using namespace std;
 using i64 = long long;
 
 /*
-向上传递时
-map合并
-将小的合并到最大的那里面去
 */
 
 void solve() {
@@ -18,123 +15,98 @@ void solve() {
     for(int i = 1; i <= n; i ++) {
         cin >> b[i];
     }
+
     vector<vector<int>> adj(n + 1);
-    for(int i = 1; i < n; i ++) {
+    for(int i = 0; i < n - 1; i ++) {
         int x, y;
         cin >> x >> y;
         adj[x].emplace_back(y);
         adj[y].emplace_back(x);
     }
 
-    vector<int> siz(n + 1, 1);
-    auto dfs1 = [&](auto &&self, int x, int p) -> void {
+    vector<int> bst(n + 1), siz(n + 1, 1);
+    siz[0] = 0;
+    auto dfs = [&](auto &&self, int x, int p) -> void {
         for(auto y : adj[x]) {
             if(y == p) {
                 continue;
             }
             self(self, y, x);
             siz[x] += siz[y];
+            if(siz[y] > siz[bst[x]]) {
+                bst[x] = y;
+            }
         }
     };
-    dfs1(dfs1, 1, -1);
 
-    vector<int> num(n + 1);
-    vector<int> res(n + 1);
+    dfs(dfs, 1, -1);
+
+    vector<int> in(n + 1), out(n + 1), ord(n + 1);
+    vector<int> cnta(n + 1), cntb(n + 1);
+    int sum = 0;
+    int tsp = 0;
+
+    auto add = [&](int x) {
+        if(a[x]) {
+            sum -= min(cnta[a[x]], cntb[a[x]]);
+            cnta[a[x]] ++;
+            sum += min(cnta[a[x]], cntb[a[x]]);
+        } else {
+            cnta[a[x]] ++;
+        }
+        if(b[x]) {
+            sum -= min(cnta[b[x]], cntb[b[x]]);
+            cntb[b[x]] ++;
+            sum += min(cnta[b[x]], cntb[b[x]]);
+        } else {
+            cntb[b[x]] ++;
+        }
+    };
+
     vector<int> ans(n + 1);
-    vector<int> tans(n + 1);
-    auto dfs = [&](auto &&self, int x, int p, map<int, int> &mma, map<int, int> &mmb) -> void{
-        int mx = -1;
-        int t = 0;
-        for(auto y : adj[x]) {
-            if(y == p) {
-                continue;
-            }
-            if(siz[y] > mx) {
-                mx = siz[y];
-                t = y;
-            }
-        }
 
-        if(mx != -1) {
-            self(self, t, x, mma, mmb);
-            res[x] += res[t];
-            num[x] += num[t];
-        }
+    auto work = [&](auto &&self, int x, int p) -> void {
+        in[x] = ++tsp;
+        ord[tsp] = x;
 
         for(auto y : adj[x]) {
-            if(y == p || y == t) {
+            if(y == p || y == bst[x]) {
                 continue;
             }
-            map<int, int> mpa, mpb;
-            self(self, y, x, mpa, mpb);
-
-            for(auto [c, d] : mpa) {
-                if(mmb[c] > 0) {
-                    int ch = min(mmb[c], d);
-                    int th = d - mmb[c];
-                    res[x] += ch;
-                    mmb[c] -= ch;
-
-                    if(th > 0) {
-                        mma[c] += th;
-                    }
-                } else {
-                    mma[c] += d;
-                }
+            self(self, y, x);
+            for(int i = in[y]; i <= out[y]; i ++) {
+                cnta[a[ord[i]]] --;
+                cntb[b[ord[i]]] --;
             }
-            for(auto [c, d] : mpb) {
-                if(mma[c] > 0) {
-                    int ch = min(mma[c], d);
-                    int th = d - mma[c];
-                    res[x] += ch;
-                    mma[c] -= ch;
-
-                    if(th > 0) {
-                        mmb[c] += th;
-                    } 
-                } else {
-                    mmb[c] += d;
-                }
-            }
-            res[x] += res[y];
-            num[x] += num[y];
+            sum = 0;
         }
 
+        if(bst[x]) {
+            self(self, bst[x], x);
+        }
+        add(x);
 
-        if(b[x] == 0) {
-            num[x] ++;
+        for(auto y : adj[x]) {
+            if(y == p || y == bst[x]) {
+                continue;
+            }
+            for(int i = in[y]; i <= out[y]; i ++) {
+                add(ord[i]);
+            }
+        }
+
+        if(sum + cnta[0] + cntb[0] >= siz[x]) {
+            ans[x] = 1;
         } else {
-            if(mma[b[x]] > 0) {
-                res[x] ++;
-                mma[b[x]] --;
-            } else {
-                mmb[b[x]] ++;
-            }
-        }
-        if(a[x] == 0) {
-            num[x] ++;
-        } else {
-            if(mmb[a[x]] > 0) {
-                res[x] ++;
-                mmb[a[x]] --;
-            } else {
-                mma[a[x]] ++;
-            }
+            ans[x] = 0;
         }
 
-        ans[x] = res[x] + num[x];
-        if(ans[x] >= siz[x]) {
-            tans[x] = 1;
-        } else {
-            tans[x] = 0;
-        }
+        out[x] = tsp;
     };
 
-    map<int, int> mpa, mpb;
-    dfs(dfs, 1, -1, mpa, mpb);
-
+    work(work, 1, -1);
     for(int i = 1; i <= n; i ++) {
-        cout << tans[i];
+        cout << ans[i];
     }
     cout << '\n';
 }  

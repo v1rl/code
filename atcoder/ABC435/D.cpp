@@ -3,7 +3,8 @@ using namespace std;
 using i64 = long long;
 
 /*
-
+本题不要求到黑块的距离，只需要维护可达性
+反向连边，以黑块为起点进行bfs模拟即可
 */
 
 void solve() {

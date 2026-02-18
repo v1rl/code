@@ -1,0 +1,14 @@
+[
+	{
+		"test": "10\nACBBCABCAB\n"
+	},
+	{
+		"test": "4\nCCBC\n"
+	},
+	{
+		"test": "36\nCABACBBBBBAABABACCBCABCCABAABABBCBAC\n"
+	},
+	{
+		"test": "5\nAABBA\n"
+	}
+]
