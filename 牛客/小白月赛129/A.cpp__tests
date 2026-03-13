@@ -1,0 +1,14 @@
+[
+	{
+		"test": "abc//abc\n"
+	},
+	{
+		"test": "//\n"
+	},
+	{
+		"test": "citrus\n"
+	},
+	{
+		"test": "//hello\n"
+	}
+]

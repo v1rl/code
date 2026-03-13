@@ -24,8 +24,8 @@ void solve() {
     auto check = [&](int mid) {
         i64 k = 0, d = 0;
         for(int i = 1; i <= n; i ++) {
-            k += d0[i];
-            d += d1[i];
+            k += d1[i];
+            d += d0[i];
             if(k * i + d > h) {
                 return true;
             }
@@ -37,34 +37,34 @@ void solve() {
         int mid = l + r >> 1;
 
         for(int i = cur + 1; i <= mid; i ++) {
-            int L = max(1, p[i] - f[i]);
-            d0[L] ++;
-            d1[L] += f[i] - p[i];
-            d0[p[i]] --;
-            d1[p[i]] -= f[i] - p[i];
+            int L = max(1, p[i] - f[i] + 1);
+            d1[L] ++;
+            d0[L] += f[i] - p[i];
+            d1[p[i]] --;
+            d0[p[i]] -= f[i] - p[i];
 
             int R = min(n + 1, p[i] + f[i]);
-            d0[p[i]] --;
-            d1[p[i]] += f[i] + p[i];
+            d1[p[i]] --;
+            d0[p[i]] += f[i] + p[i];
             if(R <= n) {
-                d0[R] ++;
-                d1[R] -= f[i] + p[i];
+                d1[R] ++;
+                d0[R] -= f[i] + p[i];
             }
         }
 
         for(int i = cur; i > mid; i --) {
-            int L = max(1, p[i] - f[i]);
-            d0[L] --;
-            d1[L] -= f[i] - p[i];
-            d0[p[i]] ++;
-            d1[p[i]] += f[i] - p[i];
+            int L = max(1, p[i] - f[i] + 1);
+            d1[L] --;
+            d0[L] -= f[i] - p[i];
+            d1[p[i]] ++;
+            d0[p[i]] += f[i] - p[i];
 
             int R = min(n + 1, p[i] + f[i]);
-            d0[p[i]] ++;
-            d1[p[i]] -= f[i] + p[i];
+            d1[p[i]] ++;
+            d0[p[i]] -= f[i] + p[i];
             if(R <= n) {
-                d0[R] --;
-                d1[R] += f[i] + p[i];
+                d1[R] --;
+                d0[R] += f[i] + p[i];
             }
         }
 

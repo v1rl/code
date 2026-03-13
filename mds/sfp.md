@@ -30,6 +30,22 @@
 
 
 
+## 贪心
+
+> 不要去纠结严格证明，每个题都去追求严格证明，浪费时间、收益很低
+>
+> 大量累积贪心的经验，重点不是证明，而是题目的特征，以及贪心方式的特征，做好总结方便借鉴
+>
+> 关注题目数据量，题目的解可能来自贪心，也很可能不是，如果数据量允许，能不用贪心就不用（稳）
+>
+> 掌握用对数器验证的技巧
+
+- 排序相关
+
+[1029. 两地调度 - 力扣（LeetCode）](https://leetcode.cn/problems/two-city-scheduling/description/)（先极限法设定一个基底，然后在基底上考虑如何贪心地修改）
+
+
+
 > 符合条件的最值查询：
 >
 > 找符合条件的最右点（找比目标小的最大的点）
@@ -42,7 +58,7 @@
 > 单调性视角：一般右侧全是符合条件的点，左侧全是不符合条件的点，于是反向
 > 指针遍历视角：`while(cur符合条件) cur --`，最后`cur+1`即为目标点
 > 函数二分视角：`lower_bound(tar)` 即为目标点
-> 手写二分视角：`if(mid符合条件) r = mid; else r = mid + 1`，其中`符合条件`一般写一个check(mid)来判定
+> 手写二分视角：`if(mid符合条件) r = mid; else l = mid + 1`，其中`符合条件`一般写一个check(mid)来判定
 
 ## 二分
 
@@ -74,6 +90,8 @@
 
 ## 倍增
 
+> 注意单独开变量存倍增时维护的信息
+
 若点集中的任意一个点都满足"入度无所谓，但出度一定为1"，则该点集中的高数量级次数移动，可以通过维护二进制倍增跳表快速实现
 倍增LCA是向上倍增，其原理便是，树上每个点一定只存在一个父节点
 但倍增跳表可以维护的信息有限，一般只能是移动的终点和路径上每个点信息的简单求和
@@ -81,6 +99,22 @@
 在点集中，每个点都有且仅有一个固定的去向，形成复数个链与环的聚合体
 
 [E - Heavy Buckets](https://atcoder.jp/contests/abc438/tasks/abc438_e)
+
+[2836. 在传球游戏中最大化函数值](https://leetcode.cn/problems/maximize-value-of-function-in-a-ball-passing-game/description/)
+
+
+
+## 预处理
+
+- 预处理前缀（有固定的左边界起点）和后缀（有固定的右边界终点）
+
+[D-小红的异或分组](https://ac.nowcoder.com/acm/contest/128768/D)（分为三部分，则第一部分一定是前缀，第三部分一定是后缀）
+
+- 预处理树上节点信息
+
+[F-小红删树](https://ac.nowcoder.com/acm/contest/128768/F)（预处理点的非叶邻节点个数）
+
+
 
 
 
@@ -106,6 +140,22 @@
 
 
 
+> 题目数据范围下可以直接**暴力搜索**最优结果
+
+## DFS与剪枝
+
+[G-真白的幻觉_2026牛客寒假算法基础集训营4](https://ac.nowcoder.com/acm/contest/120564/G)（选几位）
+
+
+
+## 数论
+
+- 质因子相关
+
+[C-小红的数字查找](https://ac.nowcoder.com/acm/contest/128768/C)（完全平方数的所有质因子都是偶数个）
+
+
+
 > 用于解决无法贪心的策略选择问题
 > 通过状态设计只保留局部最优的解空间
 > 通过状态转移逐步扩张局部最优的解空间
@@ -121,12 +171,15 @@
 
 > 设计状态、状态的属性、状态的转移，使得我们能得到的所有状态能不重不漏地表示解空间
 > 无后效性——任何情况下的**进一步转移都只和当前状态有关**，和之前选了什么，怎么选的无关
+> 最优子结构——可由局部最优解空间逐步扩张得到全局最优解空间
 >
 > dp的初始化
-> 要么定义一个能够让开头同后续整个dp一起使用同一个流程的，范围外的初始边界
-> 比如：[G - Set list](https://atcoder.jp/contests/abc424/tasks/abc424_g)
+> 要么定义一个能够让开头同后续整个dp一起使用同一个流程的（范围外的）初始边界
+> [G - Set list](https://atcoder.jp/contests/abc424/tasks/abc424_g)
+> [E-立希的扫雷构造_2026牛客寒假算法基础集训营4](https://ac.nowcoder.com/acm/contest/120564/E)（单独处理初始点，转移时额外做一定判断）
+>
 > 要么单独对开头做初始化
-> 比如：[D - 2x2 Erasing 2](https://atcoder.jp/contests/abc424/tasks/abc424_d)
+> [D - 2x2 Erasing 2](https://atcoder.jp/contests/abc424/tasks/abc424_d)（单独处理初始第一行）
 
 带约束的最优问题
 
@@ -174,6 +227,16 @@
 
 
 
+## 反向思考
+
+正向处理问题困难时，考虑反向处理
+
+- 正向删除困难，但反向扩张简单
+
+[E-小L的空投](https://ac.nowcoder.com/acm/contest/120566/E)
+
+
+
 ## 带权并查集
 
 带权并查集关系与权值的传递性
@@ -195,6 +258,10 @@
 [C - Rotate and Sum Query](https://atcoder.jp/contests/abc425/tasks/abc425_c)（带偏移量的前缀和）
 
 [E - Sum of Subarrays](https://atcoder.jp/contests/abc423/tasks/abc423_e)（推数学式子转换目标函数为多项前缀和的聚合）
+
+[E - A > B substring](https://atcoder.jp/contests/abc441/tasks/abc441_e)（推数学式子转换目标函数为多项前缀和的聚合）
+
+zcy105problem2（维护多个前缀和来判定子串是否为合法字符串）
 
 
 
@@ -435,6 +502,12 @@ $$\sum \text{MEX}(S) = \sum_{k=1}^{n} P(\text{MEX}(S) \ge k)$$
 
 [F - Adding Chords](https://atcoder.jp/contests/abc424/tasks/abc424_f)
 
+额外维护下标的线段树
+
+[J-MST Problem_2026牛客寒假算法基础集训营1](https://ac.nowcoder.com/acm/contest/120561/J)
+
+
+
 
 
 > **势能分析 / 收敛性分析 (Potential Function / Convergence Analysis)**
@@ -534,7 +607,7 @@ $$\sum \text{MEX}(S) = \sum_{k=1}^{n} P(\text{MEX}(S) \ge k)$$
 
 [G - Sum of Min](https://atcoder.jp/contests/abc438/tasks/abc438_g)
 
-移项使下标来源统一
+移项使下标来源统一，拆解得到 `F[i]与F[j]` 关系的形式
 
 [E - A > B substring](https://atcoder.jp/contests/abc441/tasks/abc441_e)
 
@@ -732,9 +805,13 @@ PN游戏
 
 ## 拓扑排序
 
-按照某个值的大小拓扑排序，利用桶排序后从大到小处理
+- 需要按照值从大到小处理，且需要用到当前值，利用桶存储后从大到小处理
+
 
 [E - Max Matrix 2](https://atcoder.jp/contests/abc433/tasks/abc433_e)
+
+- 需要按照某个值从大到小拓扑排序，值域很大或不在意多一个logn的复杂度——维护并排序下标数组 p
+- 需要按照某个值从大到小拓扑排序，值域较小——桶存储+前缀和+rank分配
 
 后缀自动机模板
 
@@ -743,6 +820,12 @@ PN游戏
 ## 位运算
 
 [Problem - D - Codeforces](https://codeforces.com/contest/2188/problem/D)（”补正“思想与枚举答案）
+
+
+
+## 基环树
+
+todo：[2836. 在传球游戏中最大化函数值 - 力扣（LeetCode）](https://leetcode.cn/problems/maximize-value-of-function-in-a-ball-passing-game/description/)
 
 
 
@@ -907,11 +990,22 @@ SCC+拓扑
 
 构造的 自由度与限制
 
+LCA kruskal重构树
+
+倍增与基环树
+
 
 
 # 读题
 
-> 去故事化简化题意，捕获关键条件，条件数学化
+**物理/自然语言映射到数学模型 (Translation)：** 不要对着题目描述空想。强迫自己用数学公式、图论模型或状态机把题目重写一遍。只要能用严格的符号表达出来，你就成功了第一步。
+
+> 题目去故事化，捕获关键条件，条件数学化，根据数学公式推导
+> *事物* $\rightarrow$ *变量*。
+> *限制* $\rightarrow$ *方程/不等式*。
+> *目标* $\rightarrow$ *函数表达式*。
+
+
 
 
 
@@ -922,6 +1016,8 @@ SCC+拓扑
 
 
 ### 明确题目类型：
+
+**先想暴力**
 
 - 策略选择问题：
   - 能不能用贪心直接固定最优策略？
@@ -971,7 +1067,7 @@ SCC+拓扑
 
 ### 模拟退化检测 (Simulation Degradation Check)
 
-- **问自己**：如果我直接写模拟，哪一步最耗时？
+- **问自己**：如果我直接写暴力模拟，哪一步最耗时？
 
 - **应对**：找到最耗时的操作，然后思考：
 
@@ -984,14 +1080,24 @@ SCC+拓扑
 
   [F - Sum of Mex](https://atcoder.jp/contests/abc438/tasks/abc438_f)（骨架树链只增不减）
 
-  - **判定——最值代替**：是不是可以贪心，直接用判定最值完成题目需要的判定？
+  - **贪心——排序/堆/set的单调性**：题目是否具有或可以**排序**得到**单调性**，或者题目的决策对象是否总是**最值**且可以用**堆**维护，然后单调空间中通过指针扫描线（+最值处理）的方式得到结果
+  
+  [1353. 最多可以参加的会议数目 - 力扣（LeetCode）](https://leetcode.cn/problems/maximum-number-of-events-that-can-be-attended/description/)
+  
+  [632. 最小区间 - 力扣（LeetCode）](https://leetcode.cn/problems/smallest-range-covering-elements-from-k-lists/)
+  
   - **判定查找——二分答案（跳跃式判定）**：逐一判定查找第一个符合条件的值会超时，考虑条件的真假是否存在**单调性**，使得我们可以用二分完成跳跃式判定
   - **判定查找——数学推导**：直接算出查找的目标状态
   - **询问——反向操作批处理询问**：正向逐一处理所有询问会超时，是否可以反向操作完成对询问的批处理
+  
+  [E-小L的空投_2026牛客寒假算法基础集训营6](https://ac.nowcoder.com/acm/contest/120566/E)（并查集易加难减）
+  
   - **询问——离线思维**：
   - **查找——离散化关键点**：点的范围极大，但关键点个数有限，题目的操作与询问是否都绕关键点展开
-
+  
   [C-炮火轰炸_2026牛客寒假算法基础集训营2](https://ac.nowcoder.com/acm/contest/120562/C)
+  
+  [632. 最小区间 - 力扣（LeetCode）](https://leetcode.cn/problems/smallest-range-covering-elements-from-k-lists/)
 
 [G - Sum of Min of XOR](https://atcoder.jp/contests/abc425/tasks/abc425_g)（按最高位的值进行批处理）
 
@@ -1011,28 +1117,11 @@ SCC+拓扑
 
 
 
+小数 / 常数切入：
 
+- 题目给定的某个数据范围极小，或是题目本身都自带极小常数（如 26 个字母、数字范围 $a_i \le 100$、位运算的 32 位），可以考虑以此入手拆分维度
 
-### 有教育意义的贪心思路
-
-- 策略具有周期性，整除部分贪心，余数部分暴力，有时需要额外留出**至少一个周期长度**给贪心进行“调整”。
-
-[F-智乃的算法竞赛群友_2026牛客寒假算法基础集训营5](https://ac.nowcoder.com/acm/contest/120565/F)（通过LCM得到题目的周期性）
-
-- 寻找**阈值**——对象的操作次数是不是有限的
-
-（同一个对象最多只会执行一次操作）
-
-- 寻找**不变量**——在操作过程中，是否存在什么东西是恒定不变的，
-  寻找**建立在不变量基础上的变量**——在某事物恒定不变的情况下，又有什么因操作而改变
-
-[F - Inserting Process](https://atcoder.jp/contests/abc425/tasks/abc425_f)（相对位置不变，获取顺序在变）
-
-[H-智乃的矩阵](https://ac.nowcoder.com/acm/contest/120565/H)（黑白格总和不变，同行列的奇偶性不变，值在变）
-
-- 寻找充分条件集——判定充分条件集，规避策略选择
-
-[H-智乃的矩阵](https://ac.nowcoder.com/acm/contest/120565/H)
+[J-小L的字符串_2026牛客寒假算法基础集训营6](https://ac.nowcoder.com/acm/contest/120566/J)
 
 
 
@@ -1060,6 +1149,41 @@ SCC+拓扑
 [E - Max Matrix 2](https://atcoder.jp/contests/abc433/tasks/abc433_e)
 
 [J-终于再见_2026牛客寒假算法基础集训营2](https://ac.nowcoder.com/acm/contest/120562/J)
+
+
+
+### 具有教育意义的贪心思路
+
+- 策略具有周期性，整除部分贪心，余数部分暴力，有时需要额外留出**至少一个周期长度**给贪心进行“调整”。
+
+[F-智乃的算法竞赛群友_2026牛客寒假算法基础集训营5](https://ac.nowcoder.com/acm/contest/120565/F)（通过LCM得到题目的周期性）
+
+- 寻找**阈值**——对象的操作次数是不是有限的
+
+（同一个对象最多只会执行一次操作）
+
+- 寻找**不变量**——在操作过程中，是否存在什么东西是恒定不变的，
+  寻找**建立在不变量基础上的变量**——在某事物恒定不变的情况下，又有什么因操作而改变
+
+[F - Inserting Process](https://atcoder.jp/contests/abc425/tasks/abc425_f)（相对位置不变，获取顺序在变）
+
+[H-智乃的矩阵](https://ac.nowcoder.com/acm/contest/120565/H)（黑白格总和不变，同行列的奇偶性不变，值在变）
+
+- 可行性判定——寻找充分条件集，判定完备充分条件集，规避策略选择
+
+- **经验题**，通过手玩例子，思考各类**非朴素情况**有什么**特殊之处**，以及导致它们有这样特殊之处的**本质**是什么
+
+[H-智乃的矩阵](https://ac.nowcoder.com/acm/contest/120565/H)
+
+[D-系ぎて](https://ac.nowcoder.com/acm/contest/120563/D)
+
+[F - Concat (2nd)](https://atcoder.jp/contests/abc434/tasks/abc434_f)（交换最后一对与倒数第二对）
+
+- 固定在某一个步骤 / 位置 / 时间点，思考当前的视界（可选集）与局部最优抉择
+
+[1353. 最多可以参加的会议数目 - 力扣（LeetCode）](https://leetcode.cn/problems/maximum-number-of-events-that-can-be-attended/submissions/706324682/)（加入当前天数为起点的所有会议，选择截至日期最近的会议）
+
+[线段重合](https://www.nowcoder.com/practice/1ae8d0b6bb4e4bcdbf64ec491f63fc37)（配合堆频繁淘汰最小值，淘汰左侧小于当前`l`的`r`）
 
 
 
@@ -1103,7 +1227,17 @@ SCC+拓扑
 
 
 
-基底构造——不知道题目的决策顺序，那么是否可以贪心地先把某个值变成目标值，随后直接去处理下一个
+基底构造——难以直接从零开始做决策，先极限法设定一个基底，随后在基底的基础上做增量变换
+
+[E-躯树の墓守](https://ac.nowcoder.com/acm/contest/120563/E)（先固定选择1~n，再从大到小修改决策）
+
+
+
+小样例或极端样例手玩 / 打表寻找规律和性质
+
+- 周期性构造
+
+[I-小L的构造2_2026牛客寒假算法基础集训营6](https://ac.nowcoder.com/acm/contest/120566/I)
 
 
 
@@ -1117,14 +1251,23 @@ SCC+拓扑
 
 
 
-### 最优情况查找——贪心转暴力
+### 决策问题——贪心转暴力
+
+**考虑贪心的可行性和正确性：**
+
+1. **缺乏最优子结构**：局部最优会严重挤压未来的决策空间。
+2. **陷入无穷的 Case By Case分类讨论**：当局部贪心无法覆盖全局时，人脑就会试图去打补丁，这在算法竞赛中是**绝对的红灯警告**。
+
+**纠偏准则**： 当你发现一个贪心策略需要分类讨论的 Case 超过 3 个，且互相之间有后效性（你现在的策略限制了未来的策略）时，**立刻停手**，回头看数据范围。数据范围小，直接转搜索或 DP。
 
 - **贪心抉择的构造性**思维：我该怎么决策得到最优解
 - **暴力查找的结构性**思维：最优解一定可以在什么情况下产出
 
-[Problem - D - Codeforces](https://codeforces.com/contest/2188/problem/D)（有且仅有一个处理1变0的补正点）
+[Problem - D - Codeforces](https://codeforces.com/contest/2188/problem/D)（遍历唯一的处理1变0的补正点）
 
-[C-墨提斯的排列_2026牛客寒假算法基础集训营4](https://ac.nowcoder.com/acm/contest/120564/C)
+[C-墨提斯的排列_2026牛客寒假算法基础集训营4](https://ac.nowcoder.com/acm/contest/120564/C)（翻转）
+
+- **状态设计与转移**的动态规划思维：设计一个无后效性，具有最优子结构的状态
 
 
 
@@ -1155,27 +1298,61 @@ bool ok = false;
 ok |= condition
 ```
 
+- 只有在需要交换、排序或stl的时候才考虑把数据用结构体或array聚合起来，否则直接用变量名更清晰
+- 函数内只引用传递的参数时，不必写成lambda函数
+
+[G-真白的幻觉](https://ac.nowcoder.com/acm/contest/120564/G)
+
+- 复杂的分类讨论问题，考虑先在草稿上写出**决策树**
+
+[F - Concat (2nd)](https://atcoder.jp/contests/abc434/tasks/abc434_f)
+
+- 必须要下标运算来表示点信息之间的关系时
+
+```cpp
+set[i] = s ^ (1 << id.size());		// 点数组存下标
+id.emplace_back(cid);				// 下标数组存信息
+```
+
+- 从后往前找一个顺序周期时
+
+```cpp
+int f[12];
+for(int i = 0; i < 12; i ++) {
+    f[n % 12] = n;
+    n --;
+}
+```
 
 
-# 检查
 
-- 考虑对 $0$ 和 $n$ 的特判
+# 找bug与检查
+
+- **极端样例特判**——考虑对 $0$ 和 $n$ 的特判
 
 [B - Locked Rooms](https://atcoder.jp/contests/abc423/tasks/abc423_b)
+
+- **越界**——注意题目数据范围在运算下是否会越界
+
+[D - Long Waiting](https://atcoder.jp/contests/abc423/tasks/abc423_d)
+
+- **越界**——注意代码是否访问了越界的数组
+
+- **初始化**——注意维护值的初始设置必须是无论如何也取不到的值
+
+[J-MST Problem_2026牛客寒假算法基础集训营1](https://ac.nowcoder.com/acm/contest/120561/J)（inf需要设置成合法值无论如何也达不到的值，最好直接默认设为inf=2e9+10）
+
+- **取等**——关键不等式是否需要取等
+
+
 
 - 考虑当前思路是建立在什么基础上的，这样的基础是否会因题目条件发生改变
 
 [C - Lock All Doors](https://atcoder.jp/contests/abc423/tasks/abc423_c)
 
-- 注意题目数据范围在运算下是否会越界
+- 对同一个变量进行多次维护时，是否保证了该变量未被修改
 
-[D - Long Waiting](https://atcoder.jp/contests/abc423/tasks/abc423_d)
-
-- 注意维护值的初始设置必须是无论如何也取不到的值
-
-[J-MST Problem_2026牛客寒假算法基础集训营1](https://ac.nowcoder.com/acm/contest/120561/J)（inf需要设置成合法值无论如何也达不到的值，最好直接默认设为inf=2e9+10）
-
-- 关键不等式是否需要取等
+[E-小橙的幸运数（hard）_牛客小白月赛129](https://ac.nowcoder.com/acm/contest/128675/E)（每次二分check时不能直接修改 $x$，所以应该用一个新变量承接 $x$）
 
 
 

@@ -18,19 +18,15 @@ void solve() {
         cin >> a[i][0] >> a[i][1];
     }
 
-    priority_queue<array<int, 3>, vector<array<int, 3>>, greater<array<int, 3>>> heap;
-    vector dist(n + 1, vector(m + 1, inf));
     vector g(n + 1, vector(m + 1, 0));
-    vector vis(n + 1, vector(m + 1, 0));
-
     for(int i = 0; i < q; i ++) {
         int x, y, t;
         cin >> x >> y >> t;
-
         g[x][y] = t;
     }
 
-
+    priority_queue<array<int, 3>, vector<array<int, 3>>, greater<array<int, 3>>> heap;
+    vector dist(n + 1, vector(m + 1, inf));
     for(auto [x, y] : a) {
         dist[x][y] = 0;
         heap.push({0, x, y});
@@ -44,11 +40,9 @@ void solve() {
         auto [d, x, y] = heap.top();
         heap.pop();
 
-        if(vis[x][y]) {
+        if(dist[x][y] != d) {
             continue;
         }
-        // cerr << d << ' ' << x << ' ' << y << '\n';
-        vis[x][y] = true;
         ans = max(d, ans);
 
         for(int i = 0; i < 4; i ++) {
@@ -56,22 +50,14 @@ void solve() {
             if(nx < 1 || nx > n || ny < 1 || ny > m) {
                 continue;
             }
-            if(vis[nx][ny]) {
-                continue;
-            }
-
-            // cerr << nx << ' ' << ny << ' ' << dist[x][y] + 1 << '\n';
             if(max(g[nx][ny], dist[x][y] + 1) < dist[nx][ny]) {
                 dist[nx][ny] = max(g[nx][ny], dist[x][y] + 1);
-                heap.push({max(g[nx][ny], dist[x][y] + 1), nx, ny});
+                heap.push({dist[nx][ny], nx, ny});
             }
         }
     }
 
-
-    // cout << dist[1][4] << '\n';
     cout << ans << '\n';
-
 }
 
 int main() {

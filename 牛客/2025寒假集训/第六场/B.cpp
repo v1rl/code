@@ -69,37 +69,27 @@ void init(int n) {
     }
 }
 
-Z C(i64 a, i64 b) {
+Z C(int a, int b) {
     if(a < b || b < 0) {
         return 0;
     }
     return fact[a] * infact[b] * infact[a - b];
 }
 
+Z f(int a, int b) {
+    if(b == 0) {
+        return a == 0;
+    }
+    return C(a - 1, b - 1);
+}
+
 void solve() {
     int n, x, t;
     cin >> n >> x >> t;
-    int p = (t + 1) / 2;
-    x = min(x, n - x);
 
-    if(x < p) {
-        cout << 0 << '\n';
-        return;
-    }
+    int l = (t + 1) / 2, r = t / 2 + 1;
 
-    if(t == 0) {
-        cout << (x == 0 ? 1 : 0) << '\n';
-    } else if(t == 1) {
-        cout << 2 << '\n';
-    } else {
-        int q = t + 1 - p;
-        Z ans = C(x - 1, p - 1) * C(n - x - 1, q - 1);
-        swap(p, q);
-        if(x >= p) {
-            ans += C(x - 1, p - 1) * C(n - x - 1, q - 1);
-        }
-        cout << ans << '\n';        
-    }
+    cout << f(x, l) * f(n - x, r) + f(x, r) * f(n - x, l) << '\n';
 }
 
 int main() {

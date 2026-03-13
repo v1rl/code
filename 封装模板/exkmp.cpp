@@ -23,20 +23,12 @@ vector<int> zFunction(string &s) {
 }
 
 void solve() {
-	string a, b;
-	cin >> a >> b;
-	string s = b + '#' + a;
-	auto x = zFunction(s);
-	x[0] = b.size();
-	i64 ans1 = 0, ans2 = 0;
-	for(int i = 0; i < b.size(); i ++) {
-		ans1 ^= 1ll * (i + 1) * (x[i] + 1);
-	}
-	for(int i = 0; i < a.size(); i ++) {
-		ans2 ^= 1ll * (i + 1) * (x[i + b.size() + 1] + 1);
-	}
-
-	cout << ans1 << '\n' << ans2 << '\n';
+	string s;
+	cin >> s;
+	vector z = zFunction(s);
+    for(int i = 0; i < s.size(); i ++) {
+    	cout << z[i] << " \n"[i == s.size() - 1];
+    }
 }
 
 int main() {

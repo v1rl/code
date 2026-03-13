@@ -7,6 +7,8 @@ using i64 = long long;
 在0是根节点本身时代码依然是正确的
 */
 
+const int N = 20;
+
 void solve() {
     int n;
     cin >> n;
@@ -19,7 +21,7 @@ void solve() {
     }
     
     vector<int> dep(n + 1);
-    vector<array<int, 20>> f(n + 1);
+    vector<array<int, N>> f(n + 1);
     dep[1] = 1;
     queue<int> q;
     q.push(1);
@@ -31,7 +33,7 @@ void solve() {
             if(dep[y]) continue;
             dep[y] = dep[x] + 1;
             f[y][0] = x;
-            for(int i = 1; i < 20; i ++) {
+            for(int i = 1; i < N; i ++) {
                 f[y][i] = f[f[y][i - 1]][i - 1];
             }
             q.push(y);
@@ -39,15 +41,24 @@ void solve() {
     }
     
     auto lca = [&](int x, int y) -> int {
-        if(dep[x] > dep[y]) swap(x, y);
-        for(int i = 19; i >= 0; i --)
-            if(dep[f[y][i]] >= dep[x])
-                y = f[y][i];
-        if(x == y) return x;
-        for(int i = 19; i >= 0; i --)
-            if(f[y][i] != f[x][i])
+        if(dep[y] > dep[x]) {
+            swap(x, y);
+        }
+        for(int i = N - 1; i >= 0; i --) {
+            if(dep[f[x][i]] >= dep[y]) {
+                x = f[x][i];
+            }
+        }
+
+        if(x == y) {
+            return x;
+        }
+
+        for(int i = N - 1; i >= 0; i --) {
+            if(f[y][i] != f[x][i]) {
                 x = f[x][i], y = f[y][i];
-        
+            }
+        }
         return f[x][0];
     };
 
@@ -60,8 +71,8 @@ void solve() {
     };
 
     auto jump = [&](int x, int y) -> int {
-        for(int i = 19; i >= 0; i --) {
-            if(dep[f[x][i]] >= dep[y] + 1) {
+        for(int i = N - 1; i >= 0; i --) {
+            if(dep[f[x][i]] > dep[y]) {
                 x = f[x][i];
             }
         }

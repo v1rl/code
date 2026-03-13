@@ -35,9 +35,10 @@ struct LazySegmentTree {
         build(1, 1, n);
     }
 
+    // pushup时若当前节点存在需要保持不变的信息，最好不用operator重写
     void pushup(int p) {
-        if(info[p].cnt) info[p].res = info[p].len; 
-        else info[p] = info[p << 1] + info[p << 1 | 1];
+        info[p].x = info[p << 1].x + info[p << 1 | 1].x;
+        info[p].v = (info[p].act ? info[p].x : info[p << 1].v + info[p << 1 | 1].v);
     }
 
     void rangeApply(int p, int l, int r, int x, int y, const int &op) {
@@ -58,27 +59,20 @@ struct LazySegmentTree {
     }
 
     i64 query() {
-        return info[1].res;
+        return info[1].v;
     }
 };
 
 struct Info {
-    i64 len = 0;
-    i64 res = 0;
-    int cnt = 0;
+    i64 x = 0;
+    i64 v = 0;
+    int act = 0;
 
     void apply(const int &op) {
-        cnt += op;
-        res = (cnt ? len : 0);
+        act += op;
+        v = (act ? x : 0);
     }
 };
-
-Info operator+(Info a, Info b) {
-    Info c;
-    c.len = a.len + b.len;
-    c.res = a.res + b.res;
-    return c;
-}
 
 struct Node {
     i64 x, y1, y2;

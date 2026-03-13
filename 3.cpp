@@ -1,18 +1,32 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
+using i64 = long long;
 
-void pp(int** b)
-{
-    *b = new int[2];
-    **b = 3;
-    *(*b + 1) = 4;
-    cout << **b << '\n';
+void solve() {
+    string s;
+    cin >> s;
+
+    int n = s.size();
+
+    vector<int> z(n);
+    for(int i = 1; i < n; i ++) {
+        while(i + z[i] < n && s[z[i]] == s[i + z[i]]) {
+            z[i] ++;
+        }
+    }
+
+    for(int i = 0; i < n; i ++) {
+        cout << z[i] << " \n"[i == n];
+    }
 }
 
-int main()
-{
-    int a = 5;
-    int *b = &a;
-    pp(&b);
-    cout << *(b + 1);
+int main() {
+    ios::sync_with_stdio(false), cin.tie(0), cout.tie(0);
+    int t;
+    // cin >> t;
+    t = 1;
+    while(t --) {
+        solve();
+    }
+    return 0;
 }

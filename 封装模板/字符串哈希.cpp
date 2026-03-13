@@ -5,78 +5,69 @@ using i64 = long long;
 /*
 使用前需根据最大可能的字符串长度进行init_static初始化
 */
-
-typedef pair<int, int> PII;
+using i64 = long long;
 
 struct strHash {
-    static constexpr i64 mod1 = 1e9 + 7;
-    static constexpr i64 mod2 = 1e9 + 9;
+    // 被卡可以换成大素数如 1000000000039
+    static constexpr i64 mod = 1e9 + 7;
 
-    inline static i64 base1 = 0, base2 = 0;
-    inline static vector<i64> p1, p2;
+    inline static i64 base = 0;
+    inline static vector<i64> p;
 
-    vector<i64> h1, h2;
+    vector<i64> h;
     int n;
 
     strHash() : n(0) {
-        h1 = {0}; 
-        h2 = {0};
+        h = {0}; 
     }
 
-    strHash(string s) {
+    strHash(const string& s) {
         init(s);
     }
 
+    // 必须在程序开头调用一次进行初始化
     static void init_static(int mx) {
-        if(base1 != 0) {
+        if(base != 0) {
             return;
         }
         mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
-        base1 = rng() % 500 + 131;
-        base2 = rng() % 500 + 13331;
+        base = rng() % 500 + 131;
 
-        p1.resize(mx + 1), p2.resize(mx + 1);
-        p1[0] = 1, p2[0] = 1;
+        p.resize(mx + 1);
+        p[0] = 1;
         for(int i = 1; i <= mx; i ++) {
-            p1[i] = p1[i - 1] * base1 % mod1;
-            p2[i] = p2[i - 1] * base2 % mod2;
+            p[i] = p[i - 1] * base % mod;
         }
     }
 
     void init(const string &s) {
-        assert(base1 != 0);
+        assert(base != 0);
         n = s.size();
-        h1.assign(n + 1, 0), h2.assign(n + 1, 0);
+        h.assign(n + 1, 0);
         for(int i = 1; i <= n; i ++) {
-            h1[i] = (h1[i - 1] * base1 + s[i - 1]) % mod1;
-            h2[i] = (h2[i - 1] * base2 + s[i - 1]) % mod2;
+            h[i] = (h[i - 1] * base + s[i - 1]) % mod;
         }
     }
 
-    PII get() const {
-        return {h1.back(), h2.back()};
+    i64 get() const {
+        return h.back();
     }
 
-    PII get(int l, int r) const {
+    i64 get(int l, int r) const {
         if(l == 1 && r == n) {
             return get();
         }
         if(l > r) {
-            return {0, 0};
+            return 0;
         }
-
-        i64 v1 = (h1[r] - h1[l - 1] * p1[r - l + 1] % mod1 + mod1) % mod1;
-        i64 v2 = (h2[r] - h2[l - 1] * p2[r - l + 1] % mod2 + mod2) % mod2;
-        return {v1, v2};
+        return (h[r] - h[l - 1] * p[r - l + 1] % mod + mod) % mod;
     }
 
-
-    int getLCP(int l1, int r1, int l2, int r2) {
+    int getLCP(int l1, int r1, int l2, int r2) const {
         int len = min(r1 - l1, r2 - l2) + 1;
-
         int l = 0, r = len;
         while(l < r) {
-            int mid = l + r + 1 >> 1;
+            int mid = (l + r + 1) >> 1;
             if(get(l1, l1 + mid - 1) == get(l2, l2 + mid - 1)) {
                 l = mid;
             } else {
@@ -88,8 +79,7 @@ struct strHash {
 
     strHash& operator+=(char c) {
         n ++;
-        h1.emplace_back((h1.back() * base1 + c) % mod1); 
-        h2.emplace_back((h2.back() * base2 + c) % mod2);
+        h.emplace_back((h.back() * base + c) % mod); 
         return *this;
     }
 
@@ -99,8 +89,7 @@ struct strHash {
         }
         for(auto c : s) {
             n ++;
-            h1.emplace_back((h1.back() * base1 + c) % mod1); 
-            h2.emplace_back((h2.back() * base2 + c) % mod2);
+            h.emplace_back((h.back() * base + c) % mod); 
         }
         return *this;
     }
@@ -109,41 +98,38 @@ struct strHash {
         if(n != ano.n) {
             return false;
         }
-        return h1.back() == ano.h1.back() && h2.back() == ano.h2.back();
+        return h.back() == ano.h.back();
     }
 
-    // 切片结构类
+    // 切片结构类，用于取切片并连接
     struct sub {
         const strHash *ptr;
         int l, r;
 
-        PII get() const {
+        i64 get() const {
             return ptr->get(l, r);
         }
         int len() const {
             return r - l + 1;
         }
 
-        friend PII operator+(const sub &a, const sub &b) {
+        friend i64 operator+(const sub &a, const sub &b) {
             int len = b.len();
-            PII ha = a.get(), hb = b.get();
-            return {(ha.first * p1[len] + hb.first) % mod1, (ha.second * p2[len] + hb.second) % mod2};
+            return (a.get() * p[len] + b.get()) % mod;
         }
 
-        friend PII operator+(const sub &a, char c) {
-            PII ha = a.get();
-            return {(ha.first * base1 + c) % mod1, (ha.second * base2 + c) % mod2};
+        friend i64 operator+(const sub &a, char c) {
+            return (a.get() * base + c) % mod;
         }
 
-        friend PII operator+(const sub &a, const string &s) {
-            PII ha = a.get();
+        friend i64 operator+(const sub &a, const string &s) {
+            i64 ha = a.get();
             int len = s.size();
-            i64 sh1 = 0, sh2 = 0;
+            i64 sh = 0;
             for(auto c : s) {
-                sh1 = (sh1 * base1 + c) % mod1;
-                sh2 = (sh2 * base2 + c) % mod2;
+                sh = (sh * base + c) % mod;
             }
-            return {(ha.first * p1[len] + sh1) % mod1, (ha.second * p2[len] + sh2) % mod2};
+            return (ha * p[len] + sh) % mod;
         }
     };
 
@@ -156,18 +142,32 @@ struct strHash {
 };
 
 void solve() {
-	strHash::init_static(1000);
-	auto a = strHash("111");
-	cout << a.h1.back();
+    strHash::init_static(1500);
+    int n;
+    cin >> n;
+    vector<strHash> hs(n);
+    vector<i64> res(n);
+    for(int i = 0; i < n; i ++) {
+        string s;
+        cin >> s;
+        hs[i].init(s);
+        res[i] = hs[i].get();
+    }
+
+    cout << hs[0].get() << ' ' << hs[2].get() << '\n';
+
+    res.erase(unique(res.begin(), res.end()), res.end());
+    cout << res.size() << '\n';
 }
 
+
 int main() {
-	ios::sync_with_stdio(false), cin.tie(0), cout.tie(0);
-	int t;
-	// cin >> t;
-	t = 1;
-	while(t --) {
-		solve();
-	}
-	return 0;
+    ios::sync_with_stdio(false), cin.tie(0), cout.tie(0);
+    int t;
+    // cin >> t;
+    t = 1;
+    while(t --) {
+        solve();
+    }
+    return 0;
 }

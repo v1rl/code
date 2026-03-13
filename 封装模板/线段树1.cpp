@@ -20,7 +20,7 @@ struct SegmentTree {
     }
 
     void init(vector<Info> a) {
-        n = a.size();
+        n = a.size() - 1;
         info.assign(4 << __lg(n), Info());
         function<void(int, int, int)> build = [&](int p, int l, int r) {
             if(l == r) {

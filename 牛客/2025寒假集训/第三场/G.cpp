@@ -26,25 +26,26 @@ void solve() {
 
     i64 sa = accumulate(a.begin(), a.end(), 0ll);
     i64 sb = accumulate(b.begin(), b.end(), 0ll);
+
     if(sa == sb) {
         cout << 1 << '\n';
-    } else if(sa > sb) {
-        for(int i = 0; i < n; i ++) {
-            sa -= a[i];
-            if(sa <= sb) {
-                cout << i + 1 << '\n';
-                break;
-            }
-        }
-    } else {
-        for(int i = 0; i < m; i ++) {
-            sb -= b[i];
-            if(sb <= sa) {
-                cout << i + 1 << '\n';
-                break;
-            }
+        return;
+    }
+    
+    if(sa < sb) {
+        swap(sa, sb);
+        swap(a, b);
+    }
+
+    int ans = 0;
+    for(auto x : a) {
+        if(sa > sb) {
+            ans ++;
+            sa -= x;
         }
     }
+
+    cout << ans << '\n';
 }
 
 int main() {

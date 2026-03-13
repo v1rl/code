@@ -4,18 +4,14 @@ using i64 = long long;
 
 
 vector<int> minp, primes;
-void sieve(int n)
-{
+void sieve(int n) {
     minp.assign(n + 1, 0);
-    for(int i = 2; i <= n; i ++)
-    {
-        if(minp[i] == 0)
-        {
+    for(int i = 2; i <= n; i ++) {
+        if(minp[i] == 0) {
             minp[i] = i;
             primes.emplace_back(i);
         }
-        for(auto p : primes)
-        {
+        for(auto p : primes) {
             if(i * p > n) break;
             minp[i * p] = p;
             if(p == minp[i]) break;
@@ -23,8 +19,7 @@ void sieve(int n)
     }
 }
 
-int main()
-{
+int main() {
     ios::sync_with_stdio(false), cin.tie(0);
     int n;
     cin >> n;

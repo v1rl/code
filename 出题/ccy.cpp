@@ -4,118 +4,79 @@ using namespace std;
 using i64 = long long;
 mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
 
-int n, q;
-vector<int> a;
-vector<array<int, 3>> query;
-
-i64 random(i64 l,i64 r)
-{ 
+i64 random(i64 l,i64 r) { 
     return (rng() - l) % (r - l + 1) + l;
 }
 
-void solve1() 
-{
-    a.clear();
-    query.clear();
+const int N = 2e5 + 10;
+const int inf = 1e9;
+int n, q;
+i64 pre[N];
+array<int, 3> vec[N];
 
-    n = random(1, 1e4);
-    cout << n << '\n';
-    for(int i = 0; i <= n; i ++)
-    {
-        int x = random(1, 1e4);
-        if(i != 0) cout << x << '\n';
-        a.emplace_back(x);
+void get() {
+    n = random(100000, 200000);
+    q = random(100000, 200000);
+    cout << n << ' ' << q << '\n';
+
+    for(int i = 1; i <= n; i ++) {
+        pre[i] = random(1, inf);
+        cout << pre[i] << ' ';
     }
+    cout << '\n';
 
-    q = random(1, 1e4);
-    cout << q << '\n';
-    for(int i = 0; i <= n; i ++)
-    {
-        int op;
-        op = random(1, 2);
-        int x, y;
-        if(op == 1)
-        {
-            x = random(1, 1e5);
-            y = random(1, 1e4);
-            cout << op << ' ' << x << ' ' << y << '\n';
+    for(int i = 1; i <= q; i ++) {
+        vec[i][0] = random(1, 2);
+        cout << vec[i][0] << ' ';
+        if(vec[i][0] == 1) {
+            vec[i][1] = random(1, n);
+            cout << vec[i][1] << '\n';
+        } else {
+            vec[i][1] = random(1, n);
+            vec[i][2] = random(vec[i][1], n);
+            cout << vec[i][1] << ' ' << vec[i][2] << '\n';
         }
-        else 
-        {
-            if(i % 5 == 0) x = random(1, 1e9);
-            else x = random(1, 1e5);
-            cout << op << ' ' << x << '\n';
-        }
-        query.push_back({op, x, y});
     }
 }
 
-template<class T>
-struct Fenwick
-{
-    int n;
-    vector<T> a;
-    Fenwick(int n_) : n(n_), a(n + 1) {};
-
-    void add(int x, const T &v)
-    {
-        for(int i = x; i <= n; i += i & -i)
-            a[i] += v;
+void solve() {
+    for(int i = 1; i <= n; i ++) {
+        pre[i] += pre[i - 1];
     }
 
-    int select(const T &k)
-    {
-        int pos = 0;
-        T cur{};
-        for(int i = 1 << __lg(n); i; i >>= 1)
-        {
-            if(pos + i <= n && cur + a[pos + i] <= k)
-            {
-                pos += i;
-                cur += a[pos];
+    int p = 0;
+    for(int i = 1; i <= q; i ++) {
+        auto [op, l, r] = vec[i];
+        if(op == 1) {
+            p += l;
+            p %= n;
+        } else {
+            l += p, r += p;
+            l = (l - 1) % n + 1;
+            r = (r - 1) % n + 1;
+            if(l <= r) {
+                cout << pre[r] - pre[l - 1] << '\n';
+            } else {
+                cout << pre[n] - pre[l - 1] + pre[r] << '\n';
             }
         }
-        return pos;
     }
-};
-
-void solve2()
-{
-    Fenwick<int> tr(n);
-    for(int i = 1; i <= n; i ++)
-    {
-        tr.add(i, a[i]);
-    }
-    for(auto &[op, x, y] : query)
-    {
-        if(op == 1)
-        {
-            tr.add(x, y);
-        }
-        else
-        {
-            cout << tr.select(x) << '\n';
-        }
-    }      
 }
 
-int main() 
-{
-    // srand(int(time(0)));
-    for(int i = 1;i <= 10; i ++)
-    {
+int main() {
+    for(int i = 3;i <= 5; i ++) {
         string filename1 = "";
         filename1 += to_string(i); 
         filename1 += ".in"; 
         freopen(filename1.c_str() , "w" , stdout);
-        solve1();
+        get();
         fclose(stdout);
 
         string filename2 = "";
         filename2 += to_string(i); 
         filename2 += ".out"; 
         freopen(filename2.c_str() , "w" , stdout);
-        solve2();
+        solve();
         fclose(stdout);
     }
 }
