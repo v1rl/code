@@ -3,14 +3,12 @@ using namespace std;
 using i64 = long long;
 using i128 = __int128;
 
-istream &operator>>(istream &is, i128 &x) 
-{
+istream &operator>>(istream &is, i128 &x) {
     string s;
     is >> s;
     bool neg = false;
     x = 0;
-    for(auto c : s) 
-    {
+    for(auto c : s) {
         if (c == '-') neg = true;
         else x = x * 10 + (c - '0');
     }
@@ -18,8 +16,7 @@ istream &operator>>(istream &is, i128 &x)
     return is;
 }
 
-ostream &operator<<(ostream &os, i128 x)
-{
+ostream &operator<<(ostream &os, i128 x) {
     if(x == 0) return os << 0;
     string s, t;
     if(x < 0) x = -x, t = "-";
@@ -29,8 +26,7 @@ ostream &operator<<(ostream &os, i128 x)
     return os << t << s;
 }
 
-inline i128 to_i128(string s)
-{
+inline i128 to_i128(string s) {
     i128 m = 0;
     for(auto c : s){
         m *= 10;
@@ -39,8 +35,7 @@ inline i128 to_i128(string s)
     return m;
 }
 
-int main()
-{
+int main() {
     i128 a;
     cin >> a;
     cout << a;

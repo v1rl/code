@@ -46,6 +46,10 @@
 
 
 
+> 这两个函数的设计初衷是维护一个**保持有序的插入区间**。
+> **lower_bound** 是能保持序列有序的**第一个**可插入位置。
+> **upper_bound** 是能保持序列有序的**最后一个**可插入位置。
+>
 > 符合条件的最值查询：
 >
 > 找符合条件的最右点（找比目标小的最大的点）
@@ -106,9 +110,38 @@
 
 ## 预处理
 
-- 预处理前缀（有固定的左边界起点）和后缀（有固定的右边界终点）
+- 差分与前缀和
+
+> 二维区间差分：$g[x][l]++、g[y+1][r+1]++、g[x][r+1]--、g[y+1][l]--$
+>
+> 二维前缀和维护：$s[x-1][y]+s[x][y-1]-s[x-1][y-1]+a[x][y]$
+>
+> 二维前缀和查询：$s[y][r]-s[x-1][r]-s[y][l-1]+s[x-1][l-1]$
+
+[D - Clouds](https://atcoder.jp/contests/abc434/tasks/abc434_d)
+
+[C - Rotate and Sum Query](https://atcoder.jp/contests/abc425/tasks/abc425_c)（带偏移量的前缀和）
+
+[E - Sum of Subarrays](https://atcoder.jp/contests/abc423/tasks/abc423_e)（推数学式子转换目标函数为多项前缀和的聚合）
+
+> 将选中条件转换为不等式$$L \le l \le j \le r \le R$$
+> 得到权重 $W_j = (j - L + 1) \times (R - j + 1)$。
+> 得到公式$\text{Ans} = \sum_{j=L}^{R} A_j \cdot (j - L + 1)(R - j + 1)$。
+> 分配律拆开得到$$\text{Ans} = - \sum (j^2 A_j) + (L+R) \sum (j A_j) - (L-1)(R+1) \sum A_j$$
+
+[E - A > B substring](https://atcoder.jp/contests/abc441/tasks/abc441_e)（推数学式子转换目标函数为多项前缀和的聚合）
+
+zcy105problem2（维护多个前缀和来判定子串是否为合法字符串）
+
+
+
+- 前后缀分解，预处理前缀（有固定的左边界起点）和后缀（有固定的右边界终点）
 
 [D-小红的异或分组](https://ac.nowcoder.com/acm/contest/128768/D)（分为三部分，则第一部分一定是前缀，第三部分一定是后缀）
+
+[689. 三个无重叠子数组的最大和 - 力扣（LeetCode）](https://leetcode.cn/problems/maximum-sum-of-3-non-overlapping-subarrays/description/)（预处理前后缀，然后枚举中间）
+
+[P8776 蓝桥杯 2022 省 A 最长不下降子序列 - 洛谷](https://www.luogu.com.cn/problem/solution/P8776)
 
 - 预处理树上节点信息
 
@@ -145,6 +178,14 @@
 ## DFS与剪枝
 
 [G-真白的幻觉_2026牛客寒假算法基础集训营4](https://ac.nowcoder.com/acm/contest/120564/G)（选几位）
+
+
+
+## 滑动窗口
+
+删掉1个数字后长度为k的子数组最大累加和
+
+> 找到每个长度为k+1窗口的最小值，用总和减去最小值即为可行答案之一
 
 
 
@@ -199,6 +240,10 @@
 
 [F - Must Buy](https://atcoder.jp/contests/abc441/tasks/abc441_f)（删除一个物品后的背包问题 / 物品贡献分析）
 
+带有时间后效性的背包问题——先贪心排序消除后效性
+
+[P1417 烹调方案 - 洛谷](https://www.luogu.com.cn/problem/P1417)（非常规背包最好都使用”恰好“而非”至少“）
+
 
 
 
@@ -242,26 +287,6 @@
 带权并查集关系与权值的传递性
 
 [F-明弦音_牛客小白月赛123内测](https://ac.nowcoder.com/acm/contest/120495/F)
-
-
-
-## 差分与前缀和
-
-> 二维区间差分：$g[x][l]++、g[y+1][r+1]++、g[x][r+1]--、g[y+1][l]--$
->
-> 二维前缀和维护：$s[x-1][y]+s[x][y-1]-s[x-1][y-1]+a[x][y]$
->
-> 二维前缀和查询：$s[y][r]-s[x-1][r]-s[y][l-1]+s[x-1][l-1]$
-
-[D - Clouds](https://atcoder.jp/contests/abc434/tasks/abc434_d)
-
-[C - Rotate and Sum Query](https://atcoder.jp/contests/abc425/tasks/abc425_c)（带偏移量的前缀和）
-
-[E - Sum of Subarrays](https://atcoder.jp/contests/abc423/tasks/abc423_e)（推数学式子转换目标函数为多项前缀和的聚合）
-
-[E - A > B substring](https://atcoder.jp/contests/abc441/tasks/abc441_e)（推数学式子转换目标函数为多项前缀和的聚合）
-
-zcy105problem2（维护多个前缀和来判定子串是否为合法字符串）
 
 
 
@@ -330,6 +355,8 @@ for(int i = l, j = mid + 1; i <= mid; i ++) {
 ```
 
 [G-宝藏拾取_2026牛客寒假算法基础集训营2](https://ac.nowcoder.com/acm/contest/120562/G)
+
+[983. 最低票价 - 力扣（LeetCode）](https://leetcode.cn/problems/minimum-cost-for-tickets/description/)
 
 - 两个指针跨度都不定，执行到某一指针结束为止
 
@@ -835,6 +862,12 @@ todo：[2836. 在传球游戏中最大化函数值 - 力扣（LeetCode）](https
 
 
 
+## ct
+
+不带修区间最大子数组——离线分治与合并，带修——线段树
+
+
+
 
 
 小知识点：
@@ -902,7 +935,7 @@ prompt
 
 
 
-以上为分别题目和官方给出的题解
+以上为分别题目和我的ac代码
 
 我正在通过刷题的方式做目标为icpc金牌的算法训练，现在我完成了这道题，但我认为只是单纯写完是不够的，我希望能从这道题中学到更多，包括：
 
@@ -927,8 +960,6 @@ prompt
 给这道题算法类型做一个题目归类，让我对这道题的本质有一个更深的了解，以便之后遇到类似的题目时能够更快地想出来。
 
 给这道题做一个”假如我没有题解的上帝视角，该如何从零开始推导“的思维复盘，比如是怎么捕获到关键条件的，又是怎么将题目的关键条件做转换，并得到一个更本质、更符合需要的目标条件的。之后又怎么根据目标条件想到解题所需算法的，在套用对应算法模板的时候我应该思考哪些问题才能针对本题对模板进行特异化修改（这仅仅是我的一个举例，你可以展示任何你觉得好的思维复盘内容），以便我能快速定位关键信息，根据关键信息推断需要的算法，再以自我问答的方式快速知道针对本题应该对算法模板做出怎样的改动
-
-另外，这是我初次思考本题时的想法，在讲解思路的最后说说我的思路和正确思路差在哪，我下次该怎么思考才能回归正确思路线："根据题目我想到了在给定一个集合S的情况下，符合条件的数的个数为上界k除以集合S所有数的lcm，但是这样的计算方式并不能确保个数恰好为集合S的大小，于是不会了"
 
 再给根据这道题的解题方法给我一个通用解题方法论，以便之后我遇到陌生的，不会的题目时，不会脑中一片空白不知从何下手，而是可以通过思考慢慢剖析题目并最终得到解法。
 
@@ -993,6 +1024,8 @@ SCC+拓扑
 LCA kruskal重构树
 
 倍增与基环树
+
+dp与序列自动机
 
 
 
@@ -1273,6 +1306,8 @@ LCA kruskal重构树
 
 # 编码
 
+> 无脑引擎驱动（Core Loop）——在这个阶段，**绝对不要再动脑思考业务逻辑**。把自己当成一个打字机，把草稿纸上推导好的方程一字不差地翻译过来。卡住往往是因为在写内部循环时，又开始怀疑边界对不对。
+
 ### 编码片段
 
 - 拆分整个编码过程为多个编码片段，快速处理那些脑中熟悉的片段，慢慢思考那些题目特性的片段
@@ -1343,6 +1378,19 @@ for(int i = 0; i < 12; i ++) {
 [J-MST Problem_2026牛客寒假算法基础集训营1](https://ac.nowcoder.com/acm/contest/120561/J)（inf需要设置成合法值无论如何也达不到的值，最好直接默认设为inf=2e9+10）
 
 - **取等**——关键不等式是否需要取等
+- **括号与优先级**——注意符号，特别是位运算符号的优先级
+
+[91. 解码方法 - 力扣（LeetCode）](https://leetcode.cn/problems/decode-ways/submissions/707423692/)（`||`的优先级是大于`&&`的，判断最开头放防越界条件时，需要给后面的其他(带`||`)条件打一个括号）
+
+- **更新时机**——循环中滚动维护的变量既需要当前轮次的值，又需要上一轮次的值
+
+[152. 乘积最大子数组 - 力扣（LeetCode）](https://leetcode.cn/problems/maximum-product-subarray/description/)
+
+
+
+- 滚动数组使用前需要给当前维度清零
+
+[494. 目标和 - 力扣（LeetCode）](https://leetcode.cn/problems/target-sum/description/)
 
 
 

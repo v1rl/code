@@ -1,0 +1,8 @@
+[
+	{
+		"test": "aabcc\ndbbca\naadbbcbcac\n"
+	},
+	{
+		"test": "aabcc\ndbbca\naadbbbaccc\n"
+	}
+]

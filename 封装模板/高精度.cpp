@@ -80,8 +80,7 @@ struct hh
     }
 };
 
-ostream &operator<<(ostream &o, const hh &a)
-{
+ostream &operator<<(ostream &o, const hh &a) {
     if(a.f) cout << '-'; 
     for (int i = a.siz; i; i --)
         o << a.a[i];
@@ -89,8 +88,7 @@ ostream &operator<<(ostream &o, const hh &a)
     return o;
 }
 
-int main()
-{
+int main() {
     ios::sync_with_stdio(false), cin.tie(0);
     string a, b, c;
     cin >> a >> b >> c;

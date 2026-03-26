@@ -1,0 +1,17 @@
+[
+	{
+		"test": "aa\na\n"
+	},
+	{
+		"test": "aa\na*\n"
+	},
+	{
+		"test": "ab\n.*\n"
+	},
+	{
+		"test": "mississippi\nmis*is*p*.\n"
+	},
+	{
+		"test": "aab\nc*a*b\n"
+	}
+]

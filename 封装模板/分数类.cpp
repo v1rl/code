@@ -4,17 +4,14 @@ using i64 = long long;
 using i128 = __int128;
 const int inf = 1e9 + 7;
 
-struct frac
-{
+struct frac {
 	i64 x, y;
 	frac(i64 x_ = 0) : x(x_), y(1) {};
 
-	frac(i64 a, i64 b)
-	{
+	frac(i64 a, i64 b) {
 		if(!b) assert(0);
 		if(!a) x = 0, y = 1;
-		else
-		{
+		else {
 			bool neg = 0;
 			if((a < 0) != (b < 0)) neg = 1;
 			if(a < 0) a = -a;
@@ -26,34 +23,27 @@ struct frac
 		}
 	}
 
-	friend frac operator+(const frac &a, const frac &b)
-	{
+	friend frac operator+(const frac &a, const frac &b) {
 		return frac(a.x * b.y + b.x * a.y, a.y * b.y);
 	}
-	friend frac operator-(const frac &a, const frac &b)
-	{
+	friend frac operator-(const frac &a, const frac &b) {
 		return frac(a.x * b.y - b.x * a.y, a.y * b.y);
 	}
-	friend frac operator*(const frac &a, const frac &b)
-	{
+	friend frac operator*(const frac &a, const frac &b) {
 		return frac(a.x * b.x, a.y * b.y);
 	}
-	friend frac operator/(const frac &a, const frac &b)
-	{
+	friend frac operator/(const frac &a, const frac &b) {
 		return frac(a.x * b.y, b.x * a.y);
 	}
-	friend bool operator<(const frac &a, const frac &b)
-	{
+	friend bool operator<(const frac &a, const frac &b) {
 		return (i128)a.x * b.y < (i128)b.x * a.y;
 	}
-	friend bool operator>(const frac &a, const frac &b)
-	{
+	friend bool operator>(const frac &a, const frac &b) {
 		return (i128)b.x * a.y > (i128)b.x * a.y;
 	}
 };
 
-void solve()
-{
+void solve() {
 	// (x - 1) / 2 + n / x
 	int n;
 	cin >> n;
@@ -66,14 +56,12 @@ void solve()
 	else cout << ans2.x << ' ' << ans2.y << '\n';
 }
 
-int main()
-{
+int main() {
     ios::sync_with_stdio(false), cin.tie(0);
     int t;
     cin >> t;
     // t = 1;
-    while(t --)
-    {
+    while(t --) {
         solve();
     }
     return 0;

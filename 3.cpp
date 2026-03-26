@@ -2,21 +2,37 @@
 using namespace std;
 using i64 = long long;
 
+const int N = 2e4 + 10;
+const int inf = 1e9;
+
+/*
+前 i 个数异或和为 j 的最大长度
+*/
+
 void solve() {
-    string s;
-    cin >> s;
+    int n, m;
+    cin >> n >> m;
+    vector<int> a(n + 1);
+    for(int i = 1; i <= n; i ++) {
+        cin >> a[i];
+    }
 
-    int n = s.size();
-
-    vector<int> z(n);
-    for(int i = 1; i < n; i ++) {
-        while(i + z[i] < n && s[z[i]] == s[i + z[i]]) {
-            z[i] ++;
+    vector f(n + 1, vector(N + 1, -inf));
+    f[0][0] = 0;
+    for(int i = 1; i <= n; i ++) {
+        for(int j = 0; j < N; j ++) {
+            // 注意位运算符的括号
+            if((j ^ a[i]) > N) {
+                continue;
+            }
+            f[i][j] = max(f[i - 1][j], f[i - 1][j ^ a[i]] + 1);
         }
     }
 
-    for(int i = 0; i < n; i ++) {
-        cout << z[i] << " \n"[i == n];
+    if(f[n][m] < 0) {
+        cout << -1 << '\n';
+    } else {
+        cout << n - f[n][m] << '\n';
     }
 }
 

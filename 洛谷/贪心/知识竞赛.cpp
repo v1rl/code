@@ -24,7 +24,7 @@ void solve() {
             ans = max(ans, y + mxY);
         } else {
             ans = max(ans, x + mxX);
-        }
+        } 
         mxX = max(mxX, x);
         mxY = max(mxY, y);
     }
