@@ -51,7 +51,7 @@ void solve() {
     int ans = -inf;
     q.push_back(0);
     for(int i = 1; i <= 2 * n; i ++) {
-        if(q.size() && i - q.front() > n) {
+        if(q.size() && q.front() < i - n) {
             q.pop_front();
         }
 

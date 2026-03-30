@@ -6,33 +6,32 @@ const int N = 2e4 + 10;
 const int inf = 1e9;
 
 /*
-前 i 个数异或和为 j 的最大长度
 */
 
 void solve() {
-    int n, m;
-    cin >> n >> m;
+    int n;
+    cin >> n;
+    multiset<int> S;
     vector<int> a(n + 1);
     for(int i = 1; i <= n; i ++) {
         cin >> a[i];
     }
 
-    vector f(n + 1, vector(N + 1, -inf));
-    f[0][0] = 0;
-    for(int i = 1; i <= n; i ++) {
-        for(int j = 0; j < N; j ++) {
-            // 注意位运算符的括号
-            if((j ^ a[i]) > N) {
-                continue;
-            }
-            f[i][j] = max(f[i - 1][j], f[i - 1][j ^ a[i]] + 1);
-        }
-    }
+    S.insert(a[1]);
+    int cur = a[1];
+    auto it = S.begin();
+    cout << *it << ' ';
 
-    if(f[n][m] < 0) {
-        cout << -1 << '\n';
-    } else {
-        cout << n - f[n][m] << '\n';
+    for(int i = 3; i <= n; i += 2) {
+        int x = a[i - 1], y = a[i];
+        S.insert(x);
+        S.insert(y);
+        if(x > *it && y > *it) {
+            it ++;
+        } else if(x <= *it && y <= *it) {
+            it --;
+        }
+        cout << *it << ' ';
     }
 }
 

@@ -41,7 +41,7 @@ void solve() {
             return x[1] < y[1];
         });
 
-    int lst = -1;
+    int lst = -1e9;
     int ans = 0;
     for(auto [l, r] : a) {
         if(l > lst) {
