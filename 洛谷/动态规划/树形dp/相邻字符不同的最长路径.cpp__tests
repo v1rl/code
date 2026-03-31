@@ -1,0 +1,11 @@
+[
+	{
+		"test": "6\n-1 0 0 1 1 2\nabacbe\n"
+	},
+	{
+		"test": "4\n-1 0 0 0 \naabc\n"
+	},
+	{
+		"test": "6\n-1 0 1 2 3 4\nzzabab\n"
+	}
+]
