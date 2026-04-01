@@ -17,21 +17,20 @@ void solve() {
         stk.push_back({x, y});
     }
 
-
     int n = stk.size();
     vector<vector<array<int, 2>>> adj(n + 1);
     vector<int> nw(n + 1);
     int cnt = 0;
     auto dfs = [&](auto &&self, int &x, int p) -> void {
         auto [w, zw] = stk[x];
-        int cur = x;
         adj[p].push_back({x + 1, w});
+        int cur = x + 1;
         if(zw == 0) {
-            self(self, ++x, cur + 1);
-            self(self, ++x, cur + 1);
+            self(self, ++x, cur);
+            self(self, ++x, cur);
         } else {
             cnt ++;
-            nw[x + 1] = zw;
+            nw[cur] = zw;
         }
     };
 

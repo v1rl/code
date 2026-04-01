@@ -13,7 +13,8 @@ void solve() {
         cin >> a[i];
     }
     sort(a.begin(), a.end());
-    for(int i = 2; i < n; i ++) {
+
+    for(int i = 2; i < n; i += 2) {
         if(a[i] != a[i - 1]) {
             cout << "No" << '\n';
             return;

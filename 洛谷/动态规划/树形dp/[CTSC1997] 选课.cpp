@@ -18,7 +18,8 @@ void solve() {
 		adj[x].emplace_back(y);
 	}
 
-	m ++;
+	
+	/*
 	vector f(n + 1, vector(m + 1, 0));
 	vector<int> siz(n + 1, 1);
 	auto dfs = [&](auto &&self, int x) -> void {
@@ -26,7 +27,11 @@ void solve() {
 
 		for(auto y : adj[x]) {
 			self(self, y);
-			for(int j = min(siz[x], m); j >= 1; j --) {
+			int v = 1;
+			if(x == 0) {
+				v = 0;
+			}
+			for(int j = min(siz[x], m); j >= v; j --) {
 				for(int k = min(siz[y], m - j); k >= 1; k --) {
 					f[x][j + k] = max(f[x][j + k], f[x][j] + f[y][k]);
 				}
@@ -34,27 +39,26 @@ void solve() {
 			siz[x] += siz[y];
 		}
 	};
+	*/
+	
 
-	/*
+	vector f(n + 1, vector(m + 1, -inf));
+	f[0][0] = 0;
 	auto dfs = [&](auto &&self, int x) -> void {
 		for(auto y : adj[x]) {
-			for(int j = 0; j <= m; j ++) {
-				if(j == 0) {
-					f[y][j] = -inf;
-				} else {
-					f[y][j] = f[x][j - 1] + w[y];
-				}
+			int v = 1;
+			for(int j = v; j <= m; j ++) {
+				f[y][j] = f[x][j - v] + w[y];
 			}
 			self(self, y);
-			for(int j = 0; j <= m; j ++) {
+			for(int j = v; j <= m; j ++) {
 				f[x][j] = max(f[x][j], f[y][j]);
 			}
 		}
 	};
-	*/
-
+	
 	dfs(dfs, 0);
-	cout << f[0][m] << '\n';
+	cout << *max_element(f[0].begin(), f[0].end()) << '\n';
 }
 
 int main() {
