@@ -2,44 +2,6 @@
 using namespace std; 
 using i64 = long long;
 
-template<class T>
-struct RMQ {
-    int n;
-    vector<vector<T>> st;
-    vector<int> lg;
-
-    RMQ(vector<T> &a) {
-        init(a);
-    }
-
-    void init(vector<T> &a) {
-        n = a.size() + 1;
-        lg.assign(n + 1, 0);
-        for(int i = 2; i <= n; i ++) {
-            lg[i] = lg[i >> 1] + 1;
-        }
-
-        int K = lg[n];
-        st.assign(n + 1, vector<T>(K + 1, 0));
-
-        for(int i = 1; i <= n; i ++) {
-            st[i][0] = a[i];
-        }
-        for(int j = 1; j <= K; j ++) {
-            int len = 1 << j;
-            int half = len >> 1;
-            for(int i = 1; i + len - 1 <= n; i ++) {
-                st[i][j] = max(st[i][j - 1], st[i + half][j - 1]);
-            }
-        }
-    }
-
-    T ask(int l, int r) {
-        int j = lg[r - l + 1];
-        return max(st[l][j], st[r - (1 << j) + 1][j]);
-    }
-};
-
 int main() {
     ios::sync_with_stdio(false), cin.tie(0), cout.tie(0);
     int n, q;
@@ -48,7 +10,33 @@ int main() {
     for(int i = 1; i <= n; i ++) {
         cin >> a[i];
     }
-    RMQ<int> rmq(a);
+
+    vector<int> lg(n + 1);
+    for(int i = 2; i <= n; i ++) {
+        lg[i] = lg[i >> 1] + 1;
+    }
+    int K = lg[n] + 1;
+    vector stmin(K, vector(n + 1, 0));
+    vector stgcd(K, vector(n + 1, 0));
+    stmin[0] = stgcd[0] = a;
+    for(int i = 1; i < K; i ++) {
+        int len = 1 << i;
+        int half = len >> 1;
+        for(int j = 1; j + len - 1 <= n; j ++) {
+            stmin[i][j] = min(stmin[i - 1][j], stmin[i - 1][j + half]);
+            stgcd[i][j] = gcd(stgcd[i - 1][j], stgcd[i - 1][j + half]);
+        }
+    }
+
+    auto queryMin = [&](int l, int r) {
+        int i = lg[r - l + 1];
+        return min(stmin[i][l], stmin[i][r - (1 << i) + 1]);
+    };
+    auto queryGcd = [&](int l, int r) {
+        int i = lg[r - l + 1];
+        return gcd(stgcd[i][l], stgcd[i][r - (1 << i) + 1]);
+    };
+
     while(q --) {
         int l, r;
         cin >> l >> r;
@@ -56,6 +44,6 @@ int main() {
             cout << 0 << '\n';
             continue;
         }
-        cout << rmq.ask(l, r) << '\n';
+        cout << queryMin(l, r) << ' ' << queryGcd(l, r) << '\n';
     }
 }
