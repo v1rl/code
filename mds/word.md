@@ -134,3 +134,9 @@ https://codeforces.com/gym/105924/C
 
 数学递推
 
+
+
+https://codeforces.com/gym/105941/problem/L
+
+凸包
+

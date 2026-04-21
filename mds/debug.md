@@ -56,3 +56,5 @@
 - 快速幂传入的底数过大，是否相乘会爆long long
 
 [Problem - 896C - Codeforces](https://codeforces.com/problemset/problem/896/C)
+
+- while(不符合目标条件)-继续，看看循环的中止条件是否写反了

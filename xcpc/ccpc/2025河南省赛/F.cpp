@@ -13,8 +13,9 @@ void solve() {
     for(int i = 0; i < n; i ++) {
         cin >> g[i];
     }
-
     int dx[] = {-1, 0, 1, 0}, dy[] = {0, -1, 0, 1};
+
+    /*
     vector dist(n, vector(m, array<int, 3>{inf, inf, inf}));
     dist[0][0][0] = 0;
     deque<array<int, 3>> q;
@@ -68,6 +69,62 @@ void solve() {
     }
 
     cout << min({dist[n - 1][m - 1][0], dist[n - 1][m - 1][1], dist[n - 1][m - 1][2]}) << '\n';
+    */
+
+    auto work = [&](int sx, int sy) {
+        vector dist(n, vector(m, inf));
+        queue<array<int, 2>> q;
+        q.push({sx, sy});
+        dist[sx][sy] = 0;
+        while(q.size()) {
+            auto [x, y] = q.front();
+            q.pop();
+
+            for(int i = 0; i < 4; i ++) {
+                int nx = x + dx[i], ny = y + dy[i];
+                if(nx < 0 || nx >= n || ny < 0 || ny >= m || g[nx][ny] != '.' || dist[nx][ny] != inf) {
+                    continue;
+                }
+                dist[nx][ny] = 0;
+                q.push({nx, ny});
+            }
+        }
+
+        for(int i = 0; i < n; i ++) {
+            for(int j = 0; j < m; j ++) {
+                if(dist[i][j] == 0) {
+                    q.push({i, j});
+                }
+            }
+        }
+
+        while(q.size()) {
+            auto [x, y] = q.front();
+            q.pop();
+
+            for(int i = 0; i < 4; i ++) {
+                int nx = x + dx[i], ny = y + dy[i];
+                if(nx < 0 || nx >= n || ny < 0 || ny >= m || dist[nx][ny] != inf) {
+                    continue;
+                }
+                dist[nx][ny] = dist[x][y] + 1;
+                q.push({nx, ny});
+            }
+        }
+
+        return dist;
+    };
+
+
+    auto dist1 = work(0, 0);
+    auto dist2 = work(n - 1, m - 1);
+    int ans = inf;
+    for(int i = 0; i < n; i ++) {
+        for(int j = 0; j < m; j ++) {
+            ans = min(ans, max(0, dist1[i][j] + dist2[i][j] - 1));
+        }
+    }
+    cout << ans << '\n';
 }
 
 int main() {

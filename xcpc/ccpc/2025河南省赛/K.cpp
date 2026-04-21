@@ -1,11 +1,10 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 using i64 = long long;
 using u32 = unsigned;
-typedef pair<int, int> PII;
+using i128 = __int128;
 
-/*
-*/
+const int inf = 1e9;
 
 template <int mod>
 struct Mint {
@@ -104,33 +103,35 @@ void NTT(vector<Z> &a, vector<Z> &b) {
 }
 
 void solve() {
-    int n;
-    cin >> n;
-    string s, t;
-    cin >> s >> t;
-    reverse(t.begin(), t.end());
-    vector<int> cost(n);
+    int n, m;
+    cin >> n >> m;
+    vector<Z> cnt(m);
+    vector<Z> res(m);
 
-    // i, i + d
-    // i, n - 1 - i - d;
-    // k(实际卷积项) = n - 1 - d(位移长度)
-    iota(cost.begin(), cost.end(), 0);
+    int num[] = {1, 0, 0, 0, 1, 0, 1, 0, 2, 1};
 
-    for(int x = 0; x < 26; x ++) {
-        vector<Z> f(n), g(n);
-        for(int i = 0; i < n; i ++) {
-            f[i] = s[i] == 'a' + x;
-            g[i] = (t[i] - 'a' - x + 26) % 26;
-        }
-        NTT(f, g);
-        for(int i = 0; i < f.size(); i ++) {
-            int d = (n - 1 - i + n) % n;
-            cost[d] += f[i].x;
+    for(int i = 0; i < m; i ++) {
+        string s = to_string(i);
+        for(auto c : s) {
+            int ch = c - '0';
+            res[i] += num[ch];
         }
     }
 
-    int ans = *min_element(cost.begin(), cost.end());
-    cout << ans << '\n';
+    for(int i = 0; i < n; i ++) {
+        int x;
+        cin >> x;
+        cnt[x] += 1;
+    }
+
+    reverse(cnt.begin(), cnt.end());
+    NTT(res, cnt);
+    vector<int> ans(m);
+    for(int i = 0; i < res.size(); i ++) {
+        ans[(i + 1) % m] += res[i].x; 
+    }
+
+    cout << *max_element(ans.begin(), ans.end()) << '\n';
 }
 
 int main() {
@@ -142,5 +143,6 @@ int main() {
     while(t --) {
         solve();
     }
+
     return 0;
 }

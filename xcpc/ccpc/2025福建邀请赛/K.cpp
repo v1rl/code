@@ -35,8 +35,6 @@ void solve() {
     dfs(dfs, 1, -1);
     i64 l = 1, r = inf;
 
-    // cout << mn[0] << ' ' << mn[1] << '\n';
-
     if(mn[0] != inf) {
         l = max(l, -mn[0] + 1);
     }
