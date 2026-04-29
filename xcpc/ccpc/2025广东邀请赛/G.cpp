@@ -18,10 +18,10 @@ void solve() {
     f[0] = 0;
 
     for(int i = 1, j = 0; i <= m; i ++) {
-        if(j < n - 1 && a[j + 1] <= i) {
+        if(j < n && a[j] <= i) {
             j ++;
         }
-        f[i] = f[i - a[j]] + 1;
+        f[i] = f[i - a[j - 1]] + 1;
         bk[f[i]] ++;
     }
 

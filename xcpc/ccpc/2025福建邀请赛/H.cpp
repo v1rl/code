@@ -44,20 +44,18 @@ void solve() {
         }
         int op = (d & 1);
         int ans = (d + r - 1) / r;
+        int rem = ans * r - d;
+        
         if(l < r) {
             return ans;
+        }
+        if(rem % 2 == 0) {
+            return ans;
+        }
+        if(l % 2 == 0) {
+            return inf;
         } else {
-            if(l % 2 == 0) {
-                if(op) {
-                    return inf;
-                }
-                return ans;
-            } else {
-                if(ans % 2 != op) {
-                    ans ++;
-                }
-                return ans;
-            }
+            return ans + 1;
         }
     };
 

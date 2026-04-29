@@ -1,6 +1,6 @@
 # debug
 
-- **极端样例特判**——考虑对 $0$ 和 $n$ 的特判
+- **极端样例特判**——考虑对极小或极大的特判
 
 [B - Locked Rooms](https://atcoder.jp/contests/abc423/tasks/abc423_b)
 
@@ -58,3 +58,24 @@
 [Problem - 896C - Codeforces](https://codeforces.com/problemset/problem/896/C)
 
 - while(不符合目标条件)-继续，看看循环的中止条件是否写反了
+- 环退化为单点或双点一边
+
+https://codeforces.com/gym/105977/C
+
+- 多个并行if条件是否错漏
+
+- 不同起点的树，父节点数组不可复用
+- 在暴力遍历中是否遗漏对不合法数据（负数）的跳过
+
+https://codeforces.com/gym/105977/problem/B
+
+- 想清楚是下取整还是上取整
+
+https://codeforces.com/gym/105977/problem/B
+
+- 递归的特判返回不要忘了return
+- 排序或其他迭代器操作时，注意是1index还是0index
+- 复制粘贴时，注意是否做到了完全适配性修改
+- 多维度vector需要将更小的维度放在前面
+- 不当地重复定义变量导致局部顶掉了全局
+- 搜索回溯后是否将对应的修改也完成了回溯

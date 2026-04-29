@@ -72,7 +72,7 @@ void solve() {
             int tar = queryGcd(x, y);
             int pos1 = get1(x, y, n, tar);
             int pos2 = get2(x, y, pos1 + 1, tar);
-            int d = max(0, pos1 - max(pos2, y) + 1);
+            int d = max(0, pos1 - pos2 + 1);
             ans += d;
             y = pos1 + 1;
         }

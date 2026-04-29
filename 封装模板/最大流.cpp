@@ -5,6 +5,7 @@ using i128 = __int128;
 
 /*
 一般网络--n^2 * m
+单位网络--m*min(sqrt(m), n^(2/3)
 */
 
 template<class T>

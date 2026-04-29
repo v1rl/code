@@ -23,7 +23,7 @@ i64 Pollard_Rho(i64 x) {
     i64 c = rng() % (x - 1) + 1;
     i64 step = 0, goal = 1;
     i64 val = 1;
-    for(goal = 1; ; goal <<= 1, s = t, val = 1) {  // 倍增优化
+    for(goal = 1; ; goal <<= 1, s = t, val = 1) {
     for(step = 1; step <= goal; step ++) {        
         t = ((i128)t * t % x + c) % x;
         val = (i128)val * abs(t - s) % x;
@@ -66,28 +66,29 @@ bool millerRabin(i64 n) {
     return true;
 }
 
-void work(i64 n) {
+void work(i64 n, auto &ans) {
     if(n <= 1) return;
     if(millerRabin(n)) {
-        ans = max(ans, n);
+        ans.emplace_back(n);
         return;
     }
     i64 x = n;
     while(x == n) {
         x = Pollard_Rho(n);
     }
-    work(x), work(n / x);
+    work(x, ans), work(n / x, ans);
 }
 
 void solve() {
     i64 a;
     cin >> a;
-    ans = 0;
-    if(millerRabin(a)) {
-        cout << "Prime" << '\n';
+    vector<i64> ans;
+    work(a, ans);
+    int n = ans.size();
+    if(n <= 2) {
+        cout << "No" << '\n';
     } else {
-        work(a);
-        cout << ans << '\n';
+        cout << (n % 2 == 1 ? "Yes" : "No") << '\n';
     }
 }
 

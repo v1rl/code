@@ -8,15 +8,11 @@ struct LazySegmentTree {
     vector<Info> info;
 
     LazySegmentTree(int n_, Info v_ = Info()) {
-        init(n_, v_);
+        init(vector(n_ + 1, v_));
     }
 
     LazySegmentTree(vector<Info> a) {
         init(a);
-    }
-
-    void init(int n_, Info v_ = Info()) {
-        init(vector(n_ + 1, v_));
     }
 
     void init(vector<Info> a) {
@@ -83,16 +79,15 @@ struct Node {
     }
 };
 
-int main()
-{
-    ios::sync_with_stdio(false), cin.tie(0);
+void solve() {
     int n;
     cin >> n;
     vector<Node> dat;
     vector<int> kth;
     dat.reserve(2 * n);
-    kth.reserve(2 * n);
+    kth.reserve(2 * n + 1);
     kth.emplace_back(0);
+
     for(int i = 0; i < n; i ++) {
         int x1, y1, x2, y2;
         cin >> x1 >> y1 >> x2 >> y2;
@@ -102,29 +97,42 @@ int main()
         kth.emplace_back(y2);
     }
     sort(dat.begin(), dat.end());
-    sort(kth.begin() + 1, kth.end());
+
+    sort(kth.begin(), kth.end());
     kth.erase(unique(kth.begin() + 1, kth.end()), kth.end());
-    int cnt = kth.size() - 1;
-    auto krank = [&](int x) {
+    int M = kth.size();
+    kth.insert(kth.begin(), -1);
+    auto rank = [&](int x) {
         return lower_bound(kth.begin() + 1, kth.end(), x) - kth.begin();
     };
 
-    vector<Info> a(cnt + 1);
-    for(int i = 1; i < cnt; i ++) {
+    vector<Info> a(M);
+    for(int i = 1; i < M; i ++) {
         a[i] = {kth[i + 1] - kth[i]};
     }
     LazySegmentTree<Info> tr(a);
 
     int last = -1;
     i64 ans = 0;
-    for(auto &[x, y1, y2, op] : dat)
-    {
+    for(auto &[x, y1, y2, op] : dat) {
         if(last != -1) {
             ans += tr.query() * (x - last);
         }
-        int l = krank(y1), r = krank(y2);
+        int l = rank(y1), r = rank(y2);
         tr.rangeApply(l, r - 1, op);
         last = x;
     }
     cout << ans << '\n';
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+
+    int t = 1;
+    // cin >> t;
+    while(t --) {
+        solve();
+    }
+    return 0;
 }

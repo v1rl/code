@@ -98,11 +98,12 @@ void solve() {
             auto &a = vec[v];
             vector<Z> f(M);
             for(int i = 0; i < M; i ++) {
-                f[i] = get(a[i][0] - 1, a[i][1] - 1);
+                auto [x, y] = a[i];
+                f[i] = get(x - 1, y - 1);
                 for(int j = 0; j < i; j ++) {
-                    f[i] -= f[j] * get(a[i][0] - a[j][0], a[i][1] - a[j][1]);
+                    f[i] -= f[j] * get(x - a[j][0], y - a[j][1]);
                 }
-                ans += f[i] * get(n - a[i][0], m - a[i][1]);
+                ans += f[i] * get(n - x, m - y);
             }
         } else {
             vector f(n + 1, vector(m + 1, (Z)0));

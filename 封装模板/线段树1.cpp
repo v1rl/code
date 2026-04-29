@@ -11,14 +11,14 @@ struct SegmentTree {
         init(n_, v_);
     }
 
-    SegmentTree(vector<Info> a) {
-        init(a);
-    }
-
     void init(int n_, Info v_ = Info()) {
         init(vector(n_ + 1, v_));
     }
 
+    SegmentTree(vector<Info> a) {
+        init(a);
+    }
+    
     void init(vector<Info> a) {
         n = a.size() - 1;
         info.assign(4 << __lg(n), Info());
@@ -79,6 +79,7 @@ struct Info {
         sum += v;
     }
 };
+
 Info operator+(Info a, Info b) {
     Info c;
     c.sum = a.sum + b.sum;

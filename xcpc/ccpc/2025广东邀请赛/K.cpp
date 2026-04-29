@@ -13,7 +13,7 @@ vector<int> manacher(string &s) {
     int n = t.size();
     vector<int> r(n);
     for(int i = 0, j = 0; i < n; i ++) {
-        if(2 * j - i > 0 && j + r[j] > i) {
+        if(j + r[j] > i) {
             r[i] = min(r[2 * j - i], j + r[j] - i);
         }
         while(i - r[i] >= 0 && i + r[i] < n && t[i + r[i]] == t[i - r[i]]) {
@@ -98,7 +98,7 @@ void solve() {
     };
 
     for(int len = 1; len <= n; len ++) {
-        if(len == 1)     {
+        if(len == 1) {
             if(n > 1) {
                 assign(0, z[1], len);
             } else {
@@ -111,7 +111,7 @@ void solve() {
         assign(mid, mid + rad[mid] - 1, len);
 
         int T = len * 2 - 2;
-        if(T < n && rad[mid] >= mid + 1) {
+        if(T < n && rad[mid] == mid + 1) {
             assign(T - 1, T + z[T] - 1, len);
         }
     }

@@ -19,11 +19,9 @@ void solve() {
     vector<int> f(n + 1);
     for(int i = 1; i <= n; i ++) {
         int ch = s[i] - 'a';
-        int num = (1 + f[max(0, i - k - 1)]) % mod;
-        int add = (num - dp[ch] + mod) % mod;
-        dp[ch] = num;
+        f[i] = (f[i - 1] + (f[max(0, i - k - 1)] + 1 - dp[ch] + mod) % mod) % mod;
+        dp[ch] = (f[max(0, i - k - 1)] + 1) % mod;
 
-        f[i] = (f[i - 1] + add) % mod;
     }
 
     cout << f[n] << '\n';
