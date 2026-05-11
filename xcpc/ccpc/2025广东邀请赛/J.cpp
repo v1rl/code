@@ -4,8 +4,6 @@ using i64 = long long;
 using u32 = unsigned;
 using i128 = __int128;
 
-const int mod = 998244353;
-
 void solve() {
     int n, m, k;
     cin >> n >> m >> k;
@@ -57,7 +55,6 @@ void solve() {
     for(int i = 1; i <= n; i ++) {
         cout << ans[i] << ' ';
     }
-    cout << '\n';
 }
 
 int main() {

@@ -35,7 +35,7 @@ void solve() {
             if(lst < l) {
                 res[i].push_back({lst, l - 1});
             }
-            lst = r + 1;    
+            lst = r + 1;
         }
         if(lst != n) {
             res[i].push_back({lst, n - 1});

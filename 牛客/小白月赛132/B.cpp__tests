@@ -1,0 +1,8 @@
+[
+	{
+		"test": "6\nA 70\nB 75\nC 80\nD 85\nE 90\nF 95\n"
+	},
+	{
+		"test": "8\nA 40\nB 80\nC 100\nD 100\nE 100\nF 100\nA 59\nF 60\n"
+	}
+]

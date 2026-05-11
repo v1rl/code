@@ -170,18 +170,14 @@ void solve() {
         }
 
         i64 sel = 0;
-        for(int i = 0; i < m; i ++) {
+        for(int i = 0; i < min(m, rem + 1); i ++) {
             int y = adj[x][i];
 
-            if(rem >= i) {
-                tr.modify(rk[y], -1);
-                self(self, y, dsum + sel, tsum + v[y], rem - i);
-                // tr.modify(rk[y], 1);
-                // tr.modify(rk[y], -1);
-                sel += v[y];
-            } else {
-                break;
-            }
+            tr.modify(rk[y], -1);
+            self(self, y, dsum + sel, tsum + v[y], rem - i);
+            // tr.modify(rk[y], 1);
+            // tr.modify(rk[y], -1);
+            sel += v[y];
         }
 
         for(int i = 0; i < min(m, rem + 1); i ++) {

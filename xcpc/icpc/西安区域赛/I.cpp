@@ -53,7 +53,6 @@ void solve() {
 			cout << i << ' ' << y << '\n';
 		}
 	}
-
 }
 
 int main() {

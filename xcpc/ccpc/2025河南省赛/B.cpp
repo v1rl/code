@@ -4,7 +4,10 @@ using i64 = long long;
 using u32 = unsigned;
 using i128 = __int128;
 
-const int inf = 1e9;
+/*
+dp[j][k] 当前末尾为数字j，且已经被抽出来k次
+*/
+
 const int mod = 998244353;
 
 void solve() {

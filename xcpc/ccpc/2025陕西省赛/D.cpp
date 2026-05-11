@@ -6,6 +6,10 @@ using i128 = __int128;
 
 const int inf = 1e9 + 10;
 
+/*
+f[i][j]表示加法使用了前i个，乘法使用了前j个的所有最大候选
+*/
+
 struct Node {
     double sum, cur;
 };
@@ -35,7 +39,6 @@ void solve() {
             mul.emplace_back(x);
         }
     }
-
 
     sort(add.begin(), add.end(), greater());
     sort(mul.begin(), mul.end(), greater());

@@ -50,7 +50,7 @@ struct SegmenTree {
         tag[p].apply(t);
     }
 
-    void pushdonw(int p) {
+    void pushdown(int p) {
         apply(p << 1, tag[p]);
         apply(p << 1 | 1, tag[p]);
         tag[p] = Tag();
@@ -65,7 +65,7 @@ struct SegmenTree {
             return;
         }
         int mid = l + r >> 1;
-        pushdonw(p);
+        pushdown(p);
         rangeApply(p << 1, l, mid, x, y, t);
         rangeApply(p << 1 | 1, mid + 1, r, x, y, t);
         pushup(p);
