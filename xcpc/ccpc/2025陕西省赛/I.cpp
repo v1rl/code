@@ -47,10 +47,10 @@ void solve() {
         }
 
         sort(res.begin(), res.end());
-        int cnt = 1;
+        int cnt = 0;
         int cur = fact[res.size()];
-        for(int j = 1; j < res.size(); j ++) {
-            if(res[j] == res[j - 1]) {
+        for(int j = 0; j < res.size(); j ++) {
+            if(i == 0 || res[j] == res[j - 1]) {
                 cnt ++;
             } else {
                 cur = 1ll * cur * infact[cnt] % mod;

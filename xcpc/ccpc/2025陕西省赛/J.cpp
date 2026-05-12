@@ -9,52 +9,26 @@ void solve() {
     cin >> k;
     string s;
     cin >> s;
+    int n = s.size();
 
-    // lose
-    vector<string> a = {"l", "lo", "ls", "le", "los", "loe", "lse", "lose"};
-    vector<string> b = {"o", "os", "oe", "ose"};
-    vector<string> c = {"s", "se"};
-
-    reverse(a.begin(), a.end());
-    reverse(b.begin(), b.end());
-    reverse(c.begin(), c.end());
+    unordered_map<char, int> mp {
+        {'l', 1},
+        {'o', 2},
+        {'s', 3},
+        {'e', 4}
+    };
 
     vector<int> res;
-    int m = s.size();
-    for(int i = 0; i < m; i ++) {
-        int cur = 0;
-        if(s[i] == 'l') {
-            for(auto t : a) {
-                int len = t.size();
-                if(s.substr(i, len) == t) {
-                    cur = len;
-                    break;
-                }
-            }
-        } else if(s[i] == 'o') {
-            for(auto t : b) {
-                int len = t.size();
-                if(s.substr(i, len) == t) {
-                    cur = len;
-                    break;
-                }
-            }
-        } else if(s[i] == 's') {
-            for(auto t : c) {
-                int len = t.size();
-                if(s.substr(i, len) == t) {
-                    cur = len;
-                    break;
-                }
-            }
-        } else if(s[i] == 'e') {
-            cur = 1;
+    for(int i = 0; i < n; i ++) {
+        if(!mp[s[i]]) {
+            continue;
         }
-
-        if(cur) {
-            i += cur - 1;
-            res.emplace_back(4 - cur);
+        int len = 1;
+        while(i + 1 < n && mp[s[i]] < mp[s[i + 1]]) {
+            len ++; 
+            i ++;
         }
+        res.emplace_back(4 - len);
     }
 
     int ans = 0;
@@ -65,9 +39,7 @@ void solve() {
             ans ++;
         }
     }
-    if(k > 0) {
-        ans += k / 4;
-    }
+    ans += max(0, k / 4);
     cout << ans << '\n';
 }
 

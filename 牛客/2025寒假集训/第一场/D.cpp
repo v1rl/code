@@ -3,47 +3,33 @@ using namespace std;
 using i64 = long long;
 typedef pair<int, int> PII;
 
-/*
-*/
-
 void solve() {
     int n, k;
     cin >> n >> k;
-    vector<int> a(n + 1), mx(n + 1);
+    vector<int> a(n + 1), pre(n + 1);
     for(int i = 1; i <= n; i ++) {
         cin >> a[i];
-        mx[i] = max(mx[i - 1], a[i] + i);
-    }    
+        pre[i] = max(pre[i - 1], min(n, a[i] + i));
+    }
 
     auto check = [&](int mid) {
-        int r = 1;
-        int t = k;
-        while(r <= n) {
-            while(r <= n && a[r] == 0) {
-                r ++;
-            }
+        int cur = 1;
 
-            if(r > n) {
-                return true;
-            }
-            
-            if(t > 0) {
-                t --;
-            } else {
-                return false;
-            }
-
-            int cnt = mid;
-            while(r < n && cnt --) {
-                if(mx[r] == r) {
-                    break;
-                }
-                r = mx[r];
-            }
-
-            r ++;
+        while(cur <= n && !a[cur]) {
+            cur ++;
         }
-        return true;
+
+        for(int i = 0; i < k && cur <= n; i ++) {
+            for(int j = 0; j < mid && cur <= n && pre[cur] > cur; j ++) {
+                cur = pre[cur];
+            }
+            cur ++;
+            while(cur <= n && !a[cur]) {
+                cur ++;
+            }
+        }
+
+        return cur == n + 1;
     };
 
     int l = 0, r = n;

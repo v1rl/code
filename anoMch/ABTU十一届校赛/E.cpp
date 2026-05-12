@@ -40,7 +40,7 @@ void solve() {
         vector<array<int, 2>> ps;
 
         int temp = x;
-        while(minp[x] != 0) {
+        while(x > 1) {
             int p = minp[x];
             int cnt = 0;
             while(x % p == 0) {

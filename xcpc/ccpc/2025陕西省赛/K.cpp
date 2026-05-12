@@ -5,68 +5,35 @@ using u32 = unsigned;
 using i128 = __int128;
 
 /*
-恰好+1个人平分会低于y
 */
 
 void solve() {
     int n, m, x, y;
     cin >> n >> m >> x >> y;
-
-    if(y == 0) {
-        if(n + m > 0) {
-            cout << x << '\n';
-        } else {
-            cout << 0 << '\n';
-        }
-        return;
-    }
-
     if(x <= y) {
         cout << 1ll * (n + m) * y << '\n';
         return;
     }
 
-    if(n == 0) {
-        if(m) {
+    if(n == 0 && m == 0) {
+        cout << 0 << '\n';
+    } else if(n == 0) {
+        cout << x << '\n';
+    } else if(m == 0) {
+        cout << 1ll * (n - 1) * y + x << '\n';
+    } else {
+        if(y == 0) {
             cout << x << '\n';
-        } else {
-            cout << 0 << '\n';
+            return;
         }
-        return;
-    }
-
-    if(m == 0) {
-        i64 ans = 0;
-        if(n) {
-            ans += x;
-            n --;
-            ans += 1ll * n * y;
+        int B = (x + y - 1) / y - 1;
+        i64 ans2 = 1ll * n * y + x;
+        i64 ans1 = 0;
+        if(n >= B) {
+            ans1 = x + 1ll * (n - B + m) * y;
         }
-        cout << ans << '\n';
-        return;
+        cout << max(ans1, ans2) << '\n';
     }
-
-    i64 ans = 0;
-    int t = (x - 1) / y;
-    bool f = false;
-
-    i64 all = 1ll * n * y + x;
-
-    if(n >= t) {
-        ans += x;
-        n -= t;
-        ans += 1ll * y * n;
-        f = true;
-    } else {
-        ans += 1ll * y * n;
-    }
-
-    if(f) {
-        ans += 1ll * m * y;
-    } else {
-        ans += x;
-    }
-    cout << max(ans, all) << '\n';
 }
 
 int main() {
