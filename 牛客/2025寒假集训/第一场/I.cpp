@@ -3,9 +3,6 @@ using namespace std;
 using i64 = long long;
 typedef pair<int, int> PII;
 
-/*
-
-*/
 
 void solve() {
     int l, r;

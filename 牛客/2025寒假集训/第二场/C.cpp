@@ -85,14 +85,16 @@ void solve() {
         auto &a = seg[i - 1], &b = seg[i];
         int x = 0, y = 0;
         while(x < a.size() && y < b.size()) {
-            if(a[x][1] < b[y][1]) {
-                if(a[x][1] >= b[y][0]) {
-                    dsu.merge(a[x][2], b[y][2]);
+            auto &[l1, r1, id1] = a[x];
+            auto &[l2, r2, id2] = b[y];
+            if(r1 < r2) {
+                if(r1 >= l2) {
+                    dsu.merge(id1, id2);
                 }
                 x ++;
             } else {
-                if(b[y][1] >= a[x][0]) {
-                    dsu.merge(a[x][2], b[y][2]);
+                if(r2 >= l1) {
+                    dsu.merge(id1, id2);
                 }
                 y ++;
             }

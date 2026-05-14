@@ -60,11 +60,11 @@ using Z = Mint<mod>;
 void solve() {
     int n;
     cin >> n;
-    vector<int> a(n);
+    vector<int> point(n);
     for(int i = 1; i <= n; i ++) {
         int x;
         cin >> x;
-        a[x] = i;
+        point[x] = i;
     }
 
     vector<vector<int>> adj(n + 1);
@@ -90,7 +90,7 @@ void solve() {
         dp[x] += 1;
     };
 
-    dfs(dfs, a[0]);
+    dfs(dfs, point[0]);
 
     Z ans = 0, res = 1;
     int pw = 0;
@@ -110,10 +110,10 @@ void solve() {
         }
     };
 
-    mul(dp[a[0]]);
+    mul(dp[point[0]]);
     vector<int> vis(n + 1);
-    for(auto x : a) {
-        while(x >= 1 && !vis[x]) {
+    for(auto x : point) {
+        while(x != 0 && !vis[x]) {
             vis[x] = true;
             div(dp[x]);
             mul(dp[x] - 1);

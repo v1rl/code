@@ -36,12 +36,11 @@ void solve() {
             q.pop();
 
             for(auto y : adj[x]) {
-                if(d[y] >= U) {
-                    continue;
-                }
-                if(ans[y] > dist[x] + 1) {
-                    ans[y] = dist[y] = dist[x] + 1;
-                    q.push(y);
+                if(d[y] < U) {
+                    if(ans[y] > dist[x] + 1) {
+                        ans[y] = dist[y] = dist[x] + 1;
+                        q.push(y);
+                    }
                 }
             }
         }

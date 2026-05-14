@@ -19,10 +19,6 @@ struct LazySegmentTree {
         init(n_, v_);
     }
 
-    LazySegmentTree(const vector<Info> &a) {
-        init(a);
-    }
-
     void init(int n_, Info v_ = Info()) {
         init(vector(n_ + 1, v_));
     }
@@ -117,8 +113,10 @@ struct Tag {
 };
 
 struct Info {
+    // 静态固定属性
     int mn = inf;
     int mnI;
+    // 动态激活属性
     int v = inf;
     int vI;
 

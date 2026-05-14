@@ -4,7 +4,7 @@ using i64 = long long;
 typedef pair<int, int> PII;
 
 /*
-
+f[op] 当前以op为结尾的串的数量
 */
 
 const int mod = 998244353;
@@ -23,8 +23,6 @@ void solve() {
     for(int i = 1; i < n; i += 2) {
         res2[i] = '0';
     }
-
-    // cout << res1 << ' ' << res2 << '\n';
 
     auto work = [&](string res) -> int {
         string nd;

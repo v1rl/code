@@ -4,7 +4,7 @@ using i64 = long long;
 typedef pair<int, int> PII;
 
 /*
-无思路->转移的可行性具有单调性->二分->双指针
+f[i] 将前i个数合法切分完毕的方案数
 */
 
 const int mod = 998244353;
