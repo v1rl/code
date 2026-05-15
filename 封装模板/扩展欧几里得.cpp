@@ -24,33 +24,34 @@ i64 exgcd(i64 a, i64 b, i64 &x, i64 &y) {
 }
 
 // linear congruence equation
-// 返回最小非负解 x0（模 m/g），无解返回 -1
-// 模m意义下所有解为 x = x0 + k*(m/g) (k=0..g-1)
-i64 lce(i64 a, i64 b, i64 m) {
+// 返回最小非负解 x0（模 B/g），无解返回 -1
+// 模m意义下所有解为 x = x0 + k*(B/g) (k=0..g-1)
+i64 lce(i64 A, i64 C, i64 B) {
     i64 x, y;
-    i64 g = exgcd(a, m, x, y);
+    i64 g = exgcd(A, B, x, y);
 
-    if (b % g != 0) {
+    if (C % g != 0) {
         return -1;
     }
 
-    i64 m0 = m / g;
-    return (b / g * x % m0 + m0) % m0;
+    i64 modx = B / g;
+    i64 times = C / g;
+    return (x * times % bm + bm) % bm;
 }
 
 
 int main() {
     ios::sync_with_stdio(false), cin.tie(0), cout.tie(0);
-    i64 a, m;
-    cin >> a >> m;
+    i64 a, b;
+    cin >> a >> b;
     i64 x, y;
-    i64 t = exgcd(a, m, x, y);
+    i64 t = exgcd(a, b, x, y);
 
-    i64 modx = m / t;
+    i64 modx = b / t;
     i64 mody = -a / t;
 
     x = (x % modx + modx) % modx;
-    y = (t - x * a) / m;
+    y = (t - x * a) / b;
     cout << x << ' ' << y << '\n';
     cout << lce(-3, 2, 7) << '\n';
 }

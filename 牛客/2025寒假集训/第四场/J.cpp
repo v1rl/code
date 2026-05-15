@@ -30,8 +30,7 @@ void solve() {
 
         // 逆时针旋转到点出现在正方形的上方直线上
         int k = min({x, n - x + 1, y, n - y + 1});
-        // 边数为点数-1，所以是+1而不是+2
-        int len = n - k * 2 + 1;
+        int len = n - 1 - (k - 1) * 2;
         int res = 0;
         while(x != k) {
             res += len;
@@ -86,7 +85,7 @@ void solve() {
             if(t >= 4) {
                 auto [p, x] = vec[t][j].back();
                 auto [q, y] = vec[t][j][0];
-                int len = 4 * (n - 2 * j + 1);
+                int len = 4 * (n - 1 - (j - 1) * 2);
                 adj[N * t + x].push_back({N * t + y, 2 * (q - p + len)});
             }
         }

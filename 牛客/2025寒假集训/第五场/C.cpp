@@ -44,20 +44,10 @@ void solve() {
 
             nxt = max(nxt, r);
 
-            // if(lst > c) {
-            //     return res <= m;
-            // }
-
-            // 直接判定当前维护量，注意此时实际次数是多1的
             if(nxt > c) {
-                return res < m;
+                return res + 1 <= m;
             }
         }
-        // lst = nxt;
-        // res ++;
-        // if(lst > c) {
-        //     return res <= m;
-        // }
         return false;
     };
 

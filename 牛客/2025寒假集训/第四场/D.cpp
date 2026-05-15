@@ -23,21 +23,21 @@ i64 exgcd(i64 a, i64 b, i64 &x, i64 &y) {
 }
 
 void solve() {
-    i64 d, a, b;
-    cin >> d >> a >> b;
+    i64 c, a, b;
+    cin >> c >> a >> b;
 
     i64 x, y;
-    if(d % gcd(a, b) != 0) {
+    i64 g = exgcd(a, b, x, y);
+    if(c % g != 0) {
         cout << "No" << '\n';
         return;
     }
-    i64 g = exgcd(a, b, x, y);
 
-    i64 p = d / g;
-    i64 mx = b / g, my = a / g;
+    i64 times = c / g;
+    i64 modx = b / g, mody = a / g;
 
-    x = ((i128)x * p % mx + mx) % mx;
-    y = (d - (i128)a * x) / b;
+    x = ((i128)x * times % modx + modx) % modx;
+    y = (c - (i128)a * x) / b;
 
     if(y < 0) {
         cout << "No" << '\n';
@@ -52,13 +52,13 @@ void solve() {
 
     cout << "Yes" << '\n';
 
-    i64 t = (y - x) / (mx + my);
-    x += t * mx;
-    y -= t * my;
+    i64 cnt = (y - x) / (modx + mody);
+    x += cnt * modx;
+    y -= cnt * mody;
 
-    if(y >= my && max(x, y) > max(x + mx, y - my)) {
-        x += mx;
-        y -= my;
+    if(y >= mody && max(x, y) > max(x + modx, y - mody)) {
+        x += modx;
+        y -= mody;
     }
 
     cout << x << ' ' << y << '\n';

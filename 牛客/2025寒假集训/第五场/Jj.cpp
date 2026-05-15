@@ -14,25 +14,17 @@ void solve() {
     for(int i = 0; i < 3; i ++) {
         for(int j = 0; j < 3; j ++) {
             cin >> g[i][j];
-            if(vis[g[i][j]]) {
-                ok = false;
-            }
+            ok &= (!vis[g[i][j]]);
             vis[g[i][j]] = true;
         }
     }
 
     int s = g[0][0] + g[1][1] + g[2][2];
-    if(g[0][2] + g[1][1] + g[2][0] != s) {
-        ok = false;
-    } 
+    ok &= g[0][2] + g[1][1] + g[2][0] == s;
 
     for(int i = 0; i < 3; i ++) {
-        if(g[i][0] + g[i][1] + g[i][2] != s) {
-            ok = false;
-        }
-        if(g[0][i] + g[1][i] + g[2][i] != s) {
-            ok = false;
-        }
+        ok &= g[i][0] + g[i][1] + g[i][2] == s;
+        ok &= g[0][i] + g[1][i] + g[2][i] == s;
     }
 
     cout << (ok ? "YES" : "NO") << '\n';
