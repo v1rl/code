@@ -149,3 +149,9 @@ https://codeforces.com/gym/105941/problem/L
 [G-宝藏拾取_2026牛客寒假算法基础集训营2](https://ac.nowcoder.com/acm/contest/120562/G)
 
 Treap
+
+
+
+
+
+### 曲棍球棒恒等式

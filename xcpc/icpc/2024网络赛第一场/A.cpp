@@ -4,10 +4,6 @@ using i64 = long long;
 using PII = pair<int, int>;
 const int inf = 1e9;
 
-/*
-建议是尝试画图解决问题
-*/
-
 void solve() {
 	int lower = 0;
 	int cn;

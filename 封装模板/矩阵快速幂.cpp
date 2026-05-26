@@ -27,8 +27,8 @@ struct Mat {
 Mat operator*(const Mat &a, const Mat &b){
     Mat res(a.n, b.m);
     for(int i = 0; i < a.n; i ++) {
-        for(int j = 0; j < b.m; j ++) {
-            for(int k = 0; k < a.m; k ++) {
+        for(int k = 0; k < a.m; k ++) {
+            for(int j = 0; j < b.m; j ++) {
                 res.mat[i][j] += 1ll * a.mat[i][k] * b.mat[k][j] % mod;
                 res.mat[i][j] %= mod;
             }

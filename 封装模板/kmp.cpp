@@ -2,9 +2,13 @@
 using namespace std;
 using i64 = long long;
 
+/*
+ne[i]，以i结尾的，与前缀串相等的，最长的后缀串的长度
+*/
+
 vector<int> kmp(string &s) {
     int n = s.size();
-    vector<int> ne(n + 1);
+    vector<int> ne(n);
     for(int i = 1, j = 0; i < n; i ++) {
         while(j && s[i] != s[j]) {
             j = ne[j - 1];
@@ -40,7 +44,8 @@ int main() {
         }
     }
 
-    for(int i = 0; i < m; i ++)
+    for(int i = 0; i < m; i ++) {
         cout << ne[i] << ' ';
+    }
 }
 

@@ -1,21 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
-#define int long long
 using i64 = long long;
-using PII = pair<int, int>;
 const int inf = 1e9;
-
-/*
-每个点要么是左括号，要么是右括号
-对左括号有个数约束
-对左右括号匹配有匹配约束
-
-可以将对特定颜色左括号个数的下界约束，转换为对特定颜色右括号个数的上界约束，
-将从前往后左括号的下界个数约束，转换为从后往前对左括号的上界个数约束，
-从而直接使用普通费用流，避免使用上下界网络流
-
-Trick：数据量较小，约束较多的情况都可以考虑网络流建边处理约束
-*/
 
 template<class T>
 struct MinCostFlow {
@@ -134,14 +120,12 @@ void solve() {
 
 	MinCostFlow<i64> mcf(n + m + 1);
 	int stt = 0, edd = n + m + 1;
-	// 设置局部汇点处理约束，将对应颜色的点连向它的局部汇点
 	for(int i = 1; i <= n; i ++) {
 		mcf.addEdge(i, n + a[i], 1, w[i]);
 	}
 	for(int i = 1; i <= m; i ++) {
 		mcf.addEdge(n + i, edd, num[i], 0);
 	}
-	// 从后往前连成一条线并设置最大流量约束解决括号匹配问题
 	mcf.addEdge(stt, n, n / 2, 0);
 	for(int i = n; i >= 2; i --) {
 		mcf.addEdge(i, i - 1, (i - 1) / 2, 0);
@@ -155,8 +139,9 @@ void solve() {
 	}
 }
 
-signed main() {
-	ios::sync_with_stdio(0), cin.tie(0);
+int main() {
+	ios::sync_with_stdio(0);
+    cin.tie(0);
 	int t = 1;
 	cin >> t;
 	while(t --) {

@@ -5,10 +5,6 @@ using i64 = long long;
 using PII = pair<int, int>;
 const int inf = 1e9;
 
-/*
-显然的stl模拟
-*/
-
 void solve() {
 	unordered_set<string> S[26];
 	vector<int> ans(26);

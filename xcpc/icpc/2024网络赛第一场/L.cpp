@@ -1,33 +1,13 @@
 #include<bits/stdc++.h>
 using namespace std;
-#define int long long
 using i64 = long long;
-using PII = pair<int, int>;
+typedef pair<int, int> PII;
 const int inf = 1e9;
 
 /*
-显然，根据题意，我们对按钮序列有一定约束：即要么是排列，要么只有一对数是相等的
-题意要求我们判断能否将空位从a变到b
-我们不难将思路引导向————在什么情况下，空位会由什么点变到什么点
-从而很顺利的转换为对空位可能的转移进行建边，然后便可以通过可达性判断空位a能否到b
-
-现在，我们想想该怎么建边
-如果是排列，两个排列(下标排列和值排列)将形成若干个环，所有这些操作可以视作双向边
-对于这样的双向边，我下标排列与们可以用并查集只保留会改变连通性的边，控制边的数量最多在n条
-如果只有一对数相等，假设相等数所对应的两个下标分别为x1和x2，不存在的数为y，则连边 x1->y 和 x2->y
-我们将边权设置为按钮的编号，对于每次询问，我们只需要判断最小瓶颈和c的大小关系即可
-于是，我们将问题转换为了建边后求任意两点的最小瓶颈路
-MST+DFS+LCA的方法是时间复杂度的最优解，但码量较大
-我们考虑另一个做法————跑n次桶优化dijk，其复杂度为O(n*(n + l))，在这里也是能通过的
-
 Trick：桶优化dijk / MST+DFS+LCA跑最小瓶颈路
 Trick：两个排列(下标排列和值排列)的连接将形成若干个环，因而在判断连通性上我们可以将边视作双向边，
 从而用并查集避免一些需要用SCC的操作
-
-预处理并查集 + 处理读入 + 连边 + 跑dijk + 处理询问
-
-另一种比较麻烦的做法是，离线处理询问，边处理边建边，此时只需要判断可达性即可
-。。。做做可达性统计试试看先
 */
 
 const int N = 2010;
@@ -41,7 +21,6 @@ int find(int x) {
 void solve() {
 	int n, m, q;
     cin >> n >> m >> q;
-    // 需要注意，时刻注意数组变量名不要重复了
     vector<int> to(n + 1, 0);
     vector<vector<PII>> adj(n + 1);
 
@@ -70,7 +49,6 @@ void solve() {
         }
 
         if(cnt == n) {
-            // 需要注意，别用循环中后面会修改的变量当for循环的循环变量
             for(int j = 1; j <= n; j ++) {
                 int x = j;
                 int y = to[x];
@@ -82,7 +60,6 @@ void solve() {
                 }
             }
         } else if(cnt == n - 1) {
-            // 需要注意，非全局变量要手动赋0
             int x1 = 0, x2 = 0;
             int y = 0;
             for(int i = 1; i <= n; i ++) {
@@ -112,7 +89,6 @@ void solve() {
                 int x = bk[i].back();
                 bk[i].pop_back();
 
-                // 需要注意，别忘记保持仅访问最小的第一次
                 if(dist[stt][x] < i) continue;
 
                 for(auto [y, w] : adj[x]) {
@@ -142,8 +118,9 @@ void solve() {
     cout << '\n';
 }
 
-signed main() {
-	ios::sync_with_stdio(0), cin.tie(0);
+int main() {
+	ios::sync_with_stdio(0);
+    cin.tie(0);
 	int t = 1;
 	cin >> t;
 	while(t --) {
