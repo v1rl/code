@@ -10,6 +10,7 @@ void solve() {
 		cout << "NO" << '\n';
 		return;
 	}
+	
 	x --;
 	vector<int> ans(32, -1);
 	ans[31] = 1;

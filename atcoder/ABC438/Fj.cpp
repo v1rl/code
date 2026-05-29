@@ -2,9 +2,6 @@
 using namespace std;
 using i64 = long long;
 
-/*
-*/
-
 void solve() {
     int n;
     cin >> n;
@@ -17,20 +14,20 @@ void solve() {
     }
 
     vector<int> siz(n, 1);
-    vector<int> p(n + 1);
-    p[0] = -1;
+    vector<int> fa(n + 1);
+    fa[0] = -1;
     auto dfs = [&](auto &&self, int x) -> void {
         for(auto y : adj[x]) {
-            if(y == p[x]) {
+            if(y == fa[x]) {
                 continue;
             }
-            p[y] = x;
+            fa[y] = x;
             self(self, y);
             siz[x] += siz[y];
         }
     };
-
     dfs(dfs, 0);
+
 
     int l = 0, r = 0;
     i64 ans = 1;
@@ -44,31 +41,28 @@ void solve() {
     vector<int> vis(n + 1);
     vis[0] = true;
     for(int i = 1; i < n; i ++) {
-        bool f = false;
+        bool ok = false;
         int x = i;
-
         if(vis[x]) {
-            f = true;
+            ok = true;
         } else {
             while(x >= 1 && !vis[x]) {
                 vis[x] = true;
-
-                if(p[x] == 0) {
+                if(fa[x] == 0) {
                     v0 = x;
                 }
-
-                x = p[x];
+                x = fa[x];
                 if(x == l) {
-                    f = true;
+                    ok = true;
                     l = i;
                 } else if(x == r) {
-                    f = true;
+                    ok = true;
                     r = i;
                 }
             }            
         }
 
-        if(f) {
+        if(ok) {
             if(l == 0) {
                 ans += 1ll * (siz[l] - siz[v0]) * siz[r];
             } else if(r == 0) {

@@ -9,13 +9,23 @@ struct frac {
 	frac(i64 x_ = 0) : x(x_), y(1) {};
 
 	frac(i64 a, i64 b) {
-		if(!b) assert(0);
-		if(!a) x = 0, y = 1;
-		else {
+		if(!b) {
+			assert(0);
+		}
+		if(!a) {
+			x = 0, y = 1;
+		} else {
 			bool neg = 0;
-			if((a < 0) != (b < 0)) neg = 1;
-			if(a < 0) a = -a;
-			if(b < 0) b = -b;
+			if((a < 0) != (b < 0)) {
+				neg = 1;
+			}
+			
+			if(a < 0) {
+				a = -a;
+			}
+			if(b < 0) {
+				b = -b;
+			}
 			i64 g = __gcd(a, b);
 			x = a / g;
 			y = b / g;
@@ -39,7 +49,7 @@ struct frac {
 		return (i128)a.x * b.y < (i128)b.x * a.y;
 	}
 	friend bool operator>(const frac &a, const frac &b) {
-		return (i128)b.x * a.y > (i128)b.x * a.y;
+		return (i128)a.x * b.y > (i128)b.x * a.y;
 	}
 };
 

@@ -2,28 +2,24 @@
 using namespace std;
 using i64 = long long;
 
-/*
-
-*/
-
 const int inf = 1e9 + 10;
 
 void solve() {
     int n, m;
     cin >> n >> m;
-    vector<int> p(n + 1);
+    vector<int> fa(n + 1);
     for(int i = 1; i < n; i ++) {
-        p[i] = i + 1;
+        fa[i] = i + 1;
     }
     for(int i = 0; i < m; i ++) {
         int x, y;
         cin >> x >> y;
-        p[x] = max(p[x], y);
+        fa[x] = max(fa[x], y);
     }
 
     vector<int> dep(n + 1);
     for(int i = n - 1; i >= 1; i --) {
-        dep[i] = dep[p[i]] + 1;
+        dep[i] = dep[fa[i]] + 1;
     }
 
     i64 ans = 0;
@@ -33,12 +29,15 @@ void solve() {
         while(r <= n && t[l] == t[r]) {
             r ++;
         }
+        // int c = r - l;
+        // int g = n - r + 1;
+        // ans += 1ll * c * g + 1ll * c * (c - 1);
         ans += 1ll * t[l] * (r - l) * (n - l);
     }
 
     vector<vector<int>> adj(n + 1);
     for(int i = 1; i < n; i ++) {
-        adj[p[i]].emplace_back(i);
+        adj[fa[i]].emplace_back(i);
     }
 
     vector<int> siz(n + 1, 1);
@@ -72,20 +71,21 @@ void solve() {
             }
         }
 
-        int s = 1;
+        int pre = 1;
         if(adj[x].size()) {
             self(self, adj[x][0]);
-            res += 1ll * siz[adj[x][0]] * s * dep[x];
-            s += siz[adj[x][0]];
+            res += 1ll * siz[adj[x][0]] * pre * dep[x];
+            pre += siz[adj[x][0]];
         }
+        // res += cnt[dep[x]];
         cnt[dep[x]] ++;
 
         for(auto y : adj[x]) {
             if(y == adj[x][0]) {
                 continue;
             }
-            res += 1ll * s * siz[y] * dep[x];
-            s += siz[y];
+            res += 1ll * pre * siz[y] * dep[x];
+            pre += siz[y];
             for(int i = in[y]; i <= out[y]; i ++) {
                 res += 1ll * dep[x] * cnt[dep[ord[i]]];
             }

@@ -2,10 +2,6 @@
 using namespace std;
 using i64 = long long;
 
-/*
-
-*/
-
 const int inf = 1e9 + 10;
 
 void solve() {
@@ -39,14 +35,13 @@ void solve() {
             }
         }
     };
-
     dfs(dfs, 1, -1);
 
     vector<int> in(n + 1), out(n + 1), ord(n + 1);
     vector<int> cnt(n + 1);
     vector<i64> ans(n + 1);
-    int tsp = 0;
     i64 mx = 0, res = 0;
+    int tsp = 0;
 
     auto add = [&](int x) {
         cnt[x] ++;
